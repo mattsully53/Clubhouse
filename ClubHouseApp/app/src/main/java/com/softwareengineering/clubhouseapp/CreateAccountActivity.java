@@ -1,15 +1,13 @@
 package com.softwareengineering.clubhouseapp;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_create_account);
     }
 }

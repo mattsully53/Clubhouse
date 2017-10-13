@@ -92,6 +92,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mCreateAccountButton = (Button) findViewById(R.id.create_account_button);
+        mCreateAccountButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -176,6 +185,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        } else if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError("This field is required");
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -325,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     if (pieces[1].equals(mPassword)){
-                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, UserMenu.class);
                         intent.putExtra("user", pieces[0]);
                         startActivity(intent);
                         return true;
