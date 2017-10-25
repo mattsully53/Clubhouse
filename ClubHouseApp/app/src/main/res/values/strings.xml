@@ -12,11 +12,8 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-<<<<<<< HEAD
+        completions."</string>
     <string name="title_activity_group_menu">GroupMenuActivity</string>
-=======
 
     <!-- Strings related to CreateAccount -->
     <string name="prompt_name">Name</string>
@@ -28,5 +25,12 @@
     <string name="view_groups">View Groups</string>
     <string name="view_profile">View Profile</string>
     <string name="view_calendar">View Calendar</string>
->>>>>>> 3af819d06379ecae7b9b42e7c5830e307d01610c
+
+    <!-- Strings related to GroupMenu -->
+    <string name="view_members">View Members</string>
+    <string name="join_meeting">Join Meeting</string>
+    <string name="view_calendar">View Calendar</string>
+    <string name="view_resouces">View Resources</string>
+    <string name="start_meeting">Start Meeting</string>
+
 </resources>

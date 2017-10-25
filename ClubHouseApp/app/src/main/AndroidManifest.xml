@@ -24,11 +24,9 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".GroupMenuActivity"
-            android:label="@string/title_activity_group_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-=======
+            android:parentActivityName=".UserMenu" />
+        <activity
             android:name=".CreateAccountActivity"
             android:parentActivityName=".LoginActivity" />
         <activity
@@ -37,7 +35,6 @@
         <activity
             android:name=".UserProfileActivity"
             android:parentActivityName=".UserMenu" />
->>>>>>> 3af819d06379ecae7b9b42e7c5830e307d01610c
     </application>
 
 </manifest>
