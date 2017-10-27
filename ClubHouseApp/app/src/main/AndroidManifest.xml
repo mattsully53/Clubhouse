@@ -35,6 +35,7 @@
         <activity
             android:name=".UserProfileActivity"
             android:parentActivityName=".UserMenu" />
+        <activity android:name=".ViewGroupsActivity"></activity>
     </application>
 
 </manifest>
