@@ -1,13 +1,13 @@
-package com.hfad.messenger;
+package com.softwareengineering.clubhouseapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ReceiveMessageActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receive_message);
+        setContentView(R.layout.activity_create_account);
     }
 }
