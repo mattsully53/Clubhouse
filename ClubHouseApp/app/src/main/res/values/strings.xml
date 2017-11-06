@@ -31,5 +31,10 @@
     <string name="join_meeting">Join Meeting</string>
     <string name="view_resouces">View Resources</string>
     <string name="start_meeting">Start Meeting</string>
+    <string name="group_icon">Group Icon</string>
+
+    <!--Strings related to ViewGroups -->
+    <string name="bookmarked_groups">Your bookmarked clubs:</string>
+    <string name="enrolled_groups">Clubs you are a part of:</string>
 
 </resources>
