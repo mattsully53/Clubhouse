@@ -31,6 +31,16 @@ public class UserMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button mViewGroupsButton = (Button) findViewById(R.id.view_groups_button);
+        mViewGroupsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserMenu.this, ViewGroupsActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
     }
 
 }
