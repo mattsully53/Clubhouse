@@ -135,7 +135,7 @@ public class GroupMenuActivity extends Activity {
     }
 
     public void onClickViewResources (View view) {
-        Intent intent = new Intent(this, ViewResourcesActivity.class);
+        Intent intent = new Intent(this, ResourcesActivity.class);
         startActivity(intent);
     }
 

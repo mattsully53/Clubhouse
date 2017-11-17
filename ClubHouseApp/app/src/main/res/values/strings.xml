@@ -39,5 +39,6 @@
 
     <!--Strings related to ViewResources-->
     <string name="resources_groups">Your club resources:</string>
-
+    <string name="add_resources">Add Resources</string>
+    <string name="delete_resources">Delete Resources</string>
 </resources>
