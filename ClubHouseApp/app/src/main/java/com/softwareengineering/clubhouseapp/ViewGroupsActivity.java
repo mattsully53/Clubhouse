@@ -22,6 +22,7 @@ public class ViewGroupsActivity extends Activity {
 
     private SQLiteDatabase db;
     private Cursor groupCursor, bookmarkCursor;
+    //public static final String EXTRA_USERID = "userId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

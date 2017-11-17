@@ -9,28 +9,42 @@ import android.widget.TextView;
 
 public class UserMenu extends AppCompatActivity {
 
+    public static final String EXTRA_USERID = "userId";
+    //int userId = (Integer) getIntent().getExtras().get(EXTRA_USERID);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
-
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        final String user = intent.getStringExtra("user");
-
-        // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(user);
-
-        Button mViewProfileButton = (Button) findViewById(R.id.view_profile_button);
-        mViewProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-            }
-        });
     }
 
+    /*
+    public void onClickViewProfile (View view) {
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        intent.putExtra(ViewProfileActivity.class, userId);
+        startActivity(intent);
+    }
+
+    public void onClickCreateGroup (View view) {
+        Intent intent = new Intent(this, CreateGroupActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickJoinGroup (View view) {
+        Intent intent = new Intent(this, onClickJoinGroup.class);
+        startActivity(intent);
+    }
+    */
+    public void onClickViewGroups (View view) {
+        Intent intent = new Intent(this, ViewGroupsActivity.class);
+       // intent.putExtra(ViewGroupsActivity.EXTRA_USERID, userId);
+        startActivity(intent);
+    }
+    /*
+    public void onClickViewCalendar (View view) {
+        Intent intent = new Intent(this, ViewCalendarActivity.class);
+        intent.putExtra(ViewCalendarActivity.EXTRA_USERID, userId);
+        startActivity(intent);
+    }
+
+*/
 }
