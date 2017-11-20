@@ -2,6 +2,7 @@ package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -124,23 +125,25 @@ public class GroupMenuActivity extends Activity {
             db.close();
         }
 
-    /*public void onClickViewCalendar (View view) {
-        Intent intent = new Intent(this, ViewCalendarActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickViewCalendar (View view) {
+//        Intent intent = new Intent(this, ViewCalendarActivity.class);
+//        startActivity(intent);
+//    }
 
     public void onClickViewMembers (View view) {
         Intent intent = new Intent(this, ViewMembersActivity.class);
+        int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        intent.putExtra("groupId", groupId);
         startActivity(intent);
     }
-
-    public void onClickViewResources (View view) {
-        Intent intent = new Intent(this, ViewResourcesActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickJoinMeeting (View view) {
-        Intent intent = new Intent(this, JoinMeetingActivity.class);
-        startActivity(intent);
-    }*/
+//
+//    public void onClickViewResources (View view) {
+//        Intent intent = new Intent(this, ViewResourcesActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickJoinMeeting (View view) {
+//        Intent intent = new Intent(this, JoinMeetingActivity.class);
+//        startActivity(intent);
+//    }
 }

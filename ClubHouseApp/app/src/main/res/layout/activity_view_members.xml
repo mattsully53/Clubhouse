@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.softwareengineering.clubhouseapp.ViewUsersActivity">
+    tools:context="com.softwareengineering.clubhouseapp.ViewMembersActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_users" />
+        android:id="@+id/list_members" />
 
 
 </LinearLayout>

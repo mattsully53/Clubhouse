@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +66,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private SQLiteDatabase db;
+    private Cursor userCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,29 +328,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
             /* Here is where we should ask the API for the user with the given email and password.
              * If one is returned, we let them in.
              * If not, the user doesn't exist.
              */
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    if (pieces[1].equals(mPassword)){
-                        Intent intent = new Intent(LoginActivity.this, UserMenu.class);
-                        intent.putExtra("user", pieces[0]);
-                        startActivity(intent);
-                        return true;
-                    }
-                }
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    if (pieces[1].equals(mPassword)){
+//                        Intent intent = new Intent(LoginActivity.this, UserMenu.class);
+//                        intent.putExtra("user", pieces[0]);
+//                        startActivity(intent);
+//                        return true;
+//                    }
+//                }
+//            }
+//            return false;
+            String tableName = "USERS";
+            SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(LoginActivity.this);
+
+            String whereClause = "EMAIL = ? AND PASSWORD = ?";
+            String[] whereArgs = new String[] {
+                    mEmail,
+                    mPassword
+            };
+            try {
+                db = clubhouseDatabaseHelper.getReadableDatabase();
+                userCursor = db.query(tableName,
+                        new String[] {"_id", "EMAIL", "PASSWORD", "BIO", "IMAGE_ID"},
+                        whereClause,whereArgs,null,null,null);
+//                userCursor = db.rawQuery("SELECT EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? "
+//                        + "AND PASSWORD = ?", whereArgs);
+            } catch (SQLiteException e) {
+                return false;
             }
+
+            if(userCursor.moveToFirst()){
+                Intent intent = new Intent(LoginActivity.this, UserMenu.class);
+                intent.putExtra("user", mEmail);
+                startActivity(intent);
+                return true;
+            }
+
             return false;
         }
 
@@ -356,7 +382,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
             } else {
-                Toast.makeText(LoginActivity.this, "The provided username or password were incorrect.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "The email or password that you entered was incorrect.", Toast.LENGTH_LONG).show();
             }
         }
 

@@ -33,7 +33,7 @@ public class ViewGroupsActivity extends Activity {
         new UpdateGroupListTask().execute("GROUPS");
 
         //Create the group list listener
-        ListView listGroups = (ListView)findViewById(R.id.list_groups);
+        ListView listGroups = findViewById(R.id.list_groups);
         AdapterView.OnItemClickListener groupClickListener =
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -48,7 +48,7 @@ public class ViewGroupsActivity extends Activity {
         listGroups.setOnItemClickListener(groupClickListener);
 
         //Create the bookmark list listener
-        ListView listBookmarks = (ListView)findViewById(R.id.list_bookmarks);
+        ListView listBookmarks = findViewById(R.id.list_bookmarks);
         AdapterView.OnItemClickListener bookmarkClickListener =
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -67,8 +67,8 @@ public class ViewGroupsActivity extends Activity {
         ListView listGroups, listBookmarks;
 
         protected void onPreExecute() {
-            listGroups = (ListView) findViewById(R.id.list_groups);
-            listBookmarks = (ListView) findViewById(R.id.list_bookmarks);
+            listGroups = findViewById(R.id.list_groups);
+            listBookmarks = findViewById(R.id.list_bookmarks);
         }
 
         protected Boolean doInBackground(String...table) {

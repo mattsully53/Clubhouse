@@ -28,12 +28,12 @@ public class UserMenu extends AppCompatActivity {
         Intent intent = new Intent(this, CreateGroupActivity.class);
         startActivity(intent);
     }
-
+*/
     public void onClickJoinGroup (View view) {
-        Intent intent = new Intent(this, onClickJoinGroup.class);
+        Intent intent = new Intent(this, JoinGroupActivity.class);
         startActivity(intent);
     }
-    */
+
     public void onClickViewGroups (View view) {
         Intent intent = new Intent(this, ViewGroupsActivity.class);
        // intent.putExtra(ViewGroupsActivity.EXTRA_USERID, userId);

@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Matt on 11/3/17.
+ * Created by Matthew Sullivan on 11/3/17.
+ * Added to by Zac on 11/16/17.
  */
 
 public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DB_NAME = "clubhouse"; //Name of our database
-    private static final int DB_VERSION = 3; //Version of our database
+    private static final int DB_VERSION = 1; //Version of our database
 
     ClubhouseDatabaseHelper(Context context) {
         super(context,DB_NAME,null,DB_VERSION);
@@ -36,20 +37,38 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         db.insert("GROUPS", null, groupValues);
     }
 
+    public static void insertUser(SQLiteDatabase db, String name, String email, String password, String bio, int resourceId) {
+        ContentValues userValues = new ContentValues();
+        userValues.put("NAME", name);
+        userValues.put("EMAIL", email);
+        userValues.put("PASSWORD", password);
+        userValues.put("BIO", bio);
+        userValues.put("IMAGE_RESOURCE_ID", resourceId);
+        db.insert("USERS", null, userValues);
+    }
+
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
+            db.execSQL("CREATE TABLE USERS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "NAME TEXT, "
+                    + "EMAIL TEXT, "
+                    + "PASSWORD TEXT, "
+                    + "BIO TEXT, "
+                    + "IMAGE_RESOURCE_ID INTEGER);");
             db.execSQL("CREATE TABLE GROUPS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        + "NAME TEXT, "
-                        + "DESCRIPTION TEXT, "
-                        + "IMAGE_RESOURCE_ID INTEGER);");
+                    + "NAME TEXT, "
+                    + "DESCRIPTION TEXT, "
+                    + "IMAGE_RESOURCE_ID INTEGER, "
+                    + "BOOKMARK NUMERIC);");
+            db.execSQL("CREATE TABLE USER_IN_GROUP (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "GROUP_ID INTEGER, "
+                    + "USER_ID INTEGER, "
+                    + "FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(_id), "
+                    + "FOREIGN KEY(USER_ID) REFERENCES USERS(_id));");
+            insertUser(db, "Bobby Joe", "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);
+            insertUser(db, "Betty Lu", "test2@test.com", "testpass2", "This is a test user2.", R.drawable.blank_profile);
             insertGroup(db, "Computer Science Club", "Where nerds do cool stuff", R.drawable.blank_profile);
-        }
-        if (oldVersion < 2) {
             insertGroup(db, "Archery Club", "We like shooting stuff the old fashioned way", R.drawable.blank_profile);
-        }
-
-        if (oldVersion < 3) {
-            db.execSQL("ALTER TABLE GROUPS ADD COLUMN BOOKMARK NUMERIC;");
         }
     }
 
