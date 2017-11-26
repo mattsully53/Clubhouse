@@ -48,14 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -327,37 +319,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            /* Here is where we should ask the API for the user with the given email and password.
-             * If one is returned, we let them in.
-             * If not, the user doesn't exist.
-             */
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(mEmail)) {
-//                    // Account exists, return true if the password matches.
-//                    if (pieces[1].equals(mPassword)){
-//                        Intent intent = new Intent(LoginActivity.this, UserMenu.class);
-//                        intent.putExtra("user", pieces[0]);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-            String tableName = "USERS";
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(LoginActivity.this);
-
-            String whereClause = "EMAIL = ? AND PASSWORD = ?";
             String[] whereArgs = new String[] {
                     mEmail,
                     mPassword
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-//                userCursor = db.query(tableName,
-//                        new String[] {"_id", "EMAIL", "PASSWORD", "BIO", "IMAGE_ID"},
-//                        whereClause,whereArgs,null,null,null);
                 userCursor = db.rawQuery("SELECT EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? "
                         + "AND PASSWORD = ?", whereArgs);
             } catch (SQLiteException e) {

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 /**
  * Created by Matt on 11/3/17.
  * Added to by Zac on 11/16/17.
@@ -13,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DB_NAME = "clubhouse"; //Name of our database
-    private static final int DB_VERSION = 4; //Version of our database
+    private static final int DB_VERSION = 5; //Version of our database
 
     ClubhouseDatabaseHelper(Context context) {
         super(context,DB_NAME,null,DB_VERSION);
@@ -37,13 +36,16 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         db.insert("GROUPS", null, groupValues);
     }
 
-    private static void insertUser(SQLiteDatabase db, String email, String password, String bio, int resourceId) {
+    public static boolean insertUser(SQLiteDatabase db, String email, String password, String bio, int resourceId) {
+        Long res;
         ContentValues userValues = new ContentValues();
         userValues.put("EMAIL", email);
         userValues.put("PASSWORD", password);
         userValues.put("BIO", bio);
         userValues.put("IMAGE_RESOURCE_ID", resourceId);
-        db.insert("USERS", null, userValues);
+        res = db.insert("USERS", null, userValues);
+
+        return !(res == -1);
     }
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -67,7 +69,7 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "EMAIL TEXT, "
                     + "PASSWORD TEXT, "
                     + "BIO TEXT, "
-                    + "IMAGE_ID INTEGER);");
+                    + "IMAGE_RESOURCE_ID INTEGER);");
 
             insertUser(db, "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);
         }
