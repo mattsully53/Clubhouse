@@ -17,18 +17,18 @@ public class UserMenu extends AppCompatActivity {
         setContentView(R.layout.activity_user_menu);
     }
 
-    /*
-    public void onClickViewProfile (View view) {
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        intent.putExtra(ViewProfileActivity.class, userId);
-        startActivity(intent);
-    }
 
-    public void onClickCreateGroup (View view) {
-        Intent intent = new Intent(this, CreateGroupActivity.class);
-        startActivity(intent);
-    }
-*/
+//    public void onClickViewProfile (View view) {
+//        Intent intent = new Intent(this, ViewProfileActivity.class);
+//        intent.putExtra(ViewProfileActivity.class, userId);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickCreateGroup (View view) {
+//        Intent intent = new Intent(this, CreateGroupActivity.class);
+//        startActivity(intent);
+//    }
+
     public void onClickJoinGroup (View view) {
         Intent intent = new Intent(this, JoinGroupActivity.class);
         startActivity(intent);
@@ -39,12 +39,12 @@ public class UserMenu extends AppCompatActivity {
        // intent.putExtra(ViewGroupsActivity.EXTRA_USERID, userId);
         startActivity(intent);
     }
-    /*
-    public void onClickViewCalendar (View view) {
-        Intent intent = new Intent(this, ViewCalendarActivity.class);
-        intent.putExtra(ViewCalendarActivity.EXTRA_USERID, userId);
-        startActivity(intent);
-    }
 
-*/
+//    public void onClickViewCalendar (View view) {
+//        Intent intent = new Intent(this, ViewCalendarActivity.class);
+//        intent.putExtra(ViewCalendarActivity.EXTRA_USERID, userId);
+//        startActivity(intent);
+//    }
+
+
 }

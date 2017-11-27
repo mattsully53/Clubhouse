@@ -53,7 +53,8 @@
         <activity
             android:name=".ViewMembersActivity"
             android:parentActivityName=".GroupMenuActivity" />
-        <activity android:name=".JoinGroupActivity"></activity>
+        <activity android:name=".JoinGroupActivity" />
+        <activity android:name=".CreateGroupActivity"></activity>
     </application>
 
 </manifest>
