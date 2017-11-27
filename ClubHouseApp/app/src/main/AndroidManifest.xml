@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.softwareengineering.clubhouseapp">
+    package="com.softwareengineering.clubhouseapp"
+    package2="ganeshannt.calendarview">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -52,7 +53,10 @@
         <activity
             android:name=".ViewGroupsActivity"
             android:parentActivityName=".UserMenu" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity
+            android:name=".CalendarActivity"
+            android:parentActivityName=".LoginActivity" />
+        <activity android:name=".CalendarDayView"></activity>
     </application>
 
 </manifest>
