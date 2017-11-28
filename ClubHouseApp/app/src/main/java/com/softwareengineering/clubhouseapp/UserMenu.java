@@ -27,7 +27,7 @@ public class UserMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
-                intent.putExtra("user", user);
+                intent.putExtra("email", user);
                 startActivity(intent);
             }
         });
