@@ -22,14 +22,16 @@ public class GroupMenuActivity extends Activity {
     public static final String EXTRA_GROUPID = "groupId";
     private Cursor cursor;
     private SQLiteDatabase db;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_menu);
 
-        //Get the group from the intent
+        //Get the group and user from the intent
         int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        userId = (Integer) getIntent().getExtras().get("userId");
 
         //PopulateViews
         new PopulateGroupMenuTask().execute(groupId);
@@ -134,6 +136,7 @@ public class GroupMenuActivity extends Activity {
         Intent intent = new Intent(this, ViewMembersActivity.class);
         int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
         intent.putExtra("groupId", groupId);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 //

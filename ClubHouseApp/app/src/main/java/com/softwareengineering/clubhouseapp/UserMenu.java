@@ -9,40 +9,44 @@ import android.widget.TextView;
 
 public class UserMenu extends AppCompatActivity {
 
-    public static final String EXTRA_USERID = "userId";
-    //int userId = (Integer) getIntent().getExtras().get(EXTRA_USERID);
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
+
+        userId = (Integer) getIntent().getExtras().get("userId");
     }
 
 
 //    public void onClickViewProfile (View view) {
 //        Intent intent = new Intent(this, ViewProfileActivity.class);
-//        intent.putExtra(ViewProfileActivity.class, userId);
+//        intent.putExtra("userId", userId);
 //        startActivity(intent);
 //    }
 //
-//    public void onClickCreateGroup (View view) {
-//        Intent intent = new Intent(this, CreateGroupActivity.class);
-//        startActivity(intent);
-//    }
+    public void onClickCreateGroup (View view) {
+        Intent intent = new Intent(this, CreateGroupActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
+    }
 
     public void onClickJoinGroup (View view) {
         Intent intent = new Intent(this, JoinGroupActivity.class);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
     public void onClickViewGroups (View view) {
         Intent intent = new Intent(this, ViewGroupsActivity.class);
-       // intent.putExtra(ViewGroupsActivity.EXTRA_USERID, userId);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
 //    public void onClickViewCalendar (View view) {
 //        Intent intent = new Intent(this, ViewCalendarActivity.class);
-//        intent.putExtra(ViewCalendarActivity.EXTRA_USERID, userId);
+//        intent.putExtra("userId", userId);
 //        startActivity(intent);
 //    }
 

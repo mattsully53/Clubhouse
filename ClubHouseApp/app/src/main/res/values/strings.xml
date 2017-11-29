@@ -16,7 +16,7 @@
     <string name="title_activity_group_menu">GroupMenuActivity</string>
 
     <!-- Strings related to CreateAccount -->
-    <string name="prompt_name">Name</string>
+    <string name="prompt_bio">Bio</string>
     <string name="create">Create</string>
 
     <!-- Strings related to UserMenu -->
@@ -25,6 +25,13 @@
     <string name="view_groups">View Groups</string>
     <string name="view_profile">View Profile</string>
     <string name="view_calendar">View Calendar</string>
+
+    <!-- Strings related to UserProfile -->
+    <string name="user_icon">User Icon</string>
+    <string name="action_edit">Edit</string>
+
+    <!-- Strings related to EditUserProfile -->
+    <string name="save">Save</string>
 
     <!-- Strings related to GroupMenu -->
     <string name="view_members">View Members</string>
@@ -39,5 +46,14 @@
 
     <!--Strings related to ViewUsers -->
     <string name="users_in_group">Users who are a part of this group:</string>
+
+    <!--Strings related to CreateGroup -->
+    <string name="prompt_name">Name</string>
+    <string name="prompt_description">Description</string>
+    <string name="action_create_group">Create Group</string>
+
+    <!--Strings related to DeleteGroup -->
+    <string name="managed_groups">Groups you manage: </string>
+
 
 </resources>

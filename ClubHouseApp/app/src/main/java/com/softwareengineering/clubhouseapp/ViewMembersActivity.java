@@ -19,6 +19,7 @@ public class ViewMembersActivity extends Activity {
 
     private SQLiteDatabase db;
     private Cursor memberCursor;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class ViewMembersActivity extends Activity {
         //Get groupId from intent
         int groupId = (Integer) getIntent().getExtras().get("groupId");
         Log.d("FLOW", "onCreate: group id = " + groupId);
+
+        userId = (Integer) getIntent().getExtras().get("userId");
 
         //Populate the ListView with members of the chosen group
         new UpdateMemberListTask().execute(groupId);
@@ -40,7 +43,7 @@ public class ViewMembersActivity extends Activity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         //Pass the member the user clicks on to UserProfileActivity
                         Intent intent = new Intent(ViewMembersActivity.this, UserProfileActivity.class);
-                        intent.putExtra("userId", (int) id);
+                        intent.putExtra("userId", userId);
                         startActivity(intent);
                     }
                 };
@@ -57,16 +60,11 @@ public class ViewMembersActivity extends Activity {
         }
 
         protected Boolean doInBackground(Integer... groups) {
-            int groupId = groups[0];
+            Integer groupId = groups[0];
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(ViewMembersActivity.this);
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                memberCursor = db.rawQuery("SELECT _id, NAME FROM USERS",null);
-//              memberCursor = db.query("USERS",
-//                      new String[] {"_id", "NAME"}, null, null,
-//                      "GROUP_ID = ?",
-//                      new String[] {Integer.toString(groupId)},
-//                      null,null,null);
+                memberCursor = db.rawQuery("SELECT USERS._id, NAME FROM USERS JOIN USER_IN_GROUP ON USERS._id = USER_IN_GROUP.USER_ID WHERE USER_IN_GROUP.GROUP_ID = ?", new String[] {groupId.toString()} );
                 return true;
             } catch (SQLException e) {
                 return false;
@@ -101,7 +99,7 @@ public class ViewMembersActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        memberCursor.close();
+//        memberCursor.close();
         db.close();
     }
 

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 /**
  * Created by Matthew Sullivan on 11/3/17.
  * Added to by Zac on 11/16/17.
@@ -14,6 +13,7 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DB_NAME = "clubhouse"; //Name of our database
     private static final int DB_VERSION = 1; //Version of our database
+
 
     ClubhouseDatabaseHelper(Context context) {
         super(context,DB_NAME,null,DB_VERSION);
@@ -37,14 +37,24 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         db.insert("GROUPS", null, groupValues);
     }
 
-    public static void insertUser(SQLiteDatabase db, String name, String email, String password, String bio, int resourceId) {
+    public static boolean insertUser(SQLiteDatabase db, String name, String email, String password, String bio, int resourceId) {
+        Long res;
         ContentValues userValues = new ContentValues();
         userValues.put("NAME", name);
         userValues.put("EMAIL", email);
         userValues.put("PASSWORD", password);
         userValues.put("BIO", bio);
         userValues.put("IMAGE_RESOURCE_ID", resourceId);
-        db.insert("USERS", null, userValues);
+        res = db.insert("USERS", null, userValues);
+
+        return !(res == -1);
+    }
+
+    public static void insertUserInGroup(SQLiteDatabase db, int groupId, int userId) {
+        ContentValues userGroupValues = new ContentValues();
+        userGroupValues.put("GROUP_ID", groupId);
+        userGroupValues.put("USER_ID", userId);
+        db.insert("USER_IN_GROUP", null, userGroupValues);
     }
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -59,7 +69,8 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "NAME TEXT, "
                     + "DESCRIPTION TEXT, "
                     + "IMAGE_RESOURCE_ID INTEGER, "
-                    + "BOOKMARK NUMERIC);");
+                    + "BOOKMARK NUMERIC, "
+                    + "OWNER_ID INTEGER);");
             db.execSQL("CREATE TABLE USER_IN_GROUP (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "GROUP_ID INTEGER, "
                     + "USER_ID INTEGER, "
@@ -67,8 +78,6 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "FOREIGN KEY(USER_ID) REFERENCES USERS(_id));");
             insertUser(db, "Bobby Joe", "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);
             insertUser(db, "Betty Lu", "test2@test.com", "testpass2", "This is a test user2.", R.drawable.blank_profile);
-            insertGroup(db, "Computer Science Club", "Where nerds do cool stuff", R.drawable.blank_profile);
-            insertGroup(db, "Archery Club", "We like shooting stuff the old fashioned way", R.drawable.blank_profile);
         }
     }
 

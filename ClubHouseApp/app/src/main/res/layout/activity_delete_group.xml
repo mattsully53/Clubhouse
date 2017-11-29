@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.softwareengineering.clubhouseapp.JoinGroupActivity">
+    tools:context="com.softwareengineering.clubhouseapp.DeleteGroupActivity">
 
     <TextView
         android:paddingTop="5dp"
         android:paddingLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/join_group"/>
+        android:text="@string/managed_groups"/>
 
     <ListView
         android:id="@+id/list_groups"
