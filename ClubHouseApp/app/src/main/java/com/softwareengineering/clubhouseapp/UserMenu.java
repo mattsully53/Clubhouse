@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 public class UserMenu extends AppCompatActivity {
 
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,39 @@ public class UserMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        userId = (Integer) getIntent().getExtras().get("userId");
     }
+
+
+//    public void onClickViewProfile (View view) {
+//        Intent intent = new Intent(this, ViewProfileActivity.class);
+//        intent.putExtra("userId", userId);
+//        startActivity(intent);
+//    }
+//
+    public void onClickCreateGroup (View view) {
+        Intent intent = new Intent(this, CreateGroupActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
+    }
+
+    public void onClickJoinGroup (View view) {
+        Intent intent = new Intent(this, JoinGroupActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
+    }
+
+    public void onClickViewGroups (View view) {
+        Intent intent = new Intent(this, ViewGroupsActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
+    }
+
+//    public void onClickViewCalendar (View view) {
+//        Intent intent = new Intent(this, ViewCalendarActivity.class);
+//        intent.putExtra("userId", userId);
+//        startActivity(intent);
+//    }
+
 
 }

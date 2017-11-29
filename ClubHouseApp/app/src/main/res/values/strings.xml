@@ -44,4 +44,16 @@
     <string name="bookmarked_groups">Your bookmarked clubs:</string>
     <string name="enrolled_groups">Clubs you are a part of:</string>
 
+    <!--Strings related to ViewUsers -->
+    <string name="users_in_group">Users who are a part of this group:</string>
+
+    <!--Strings related to CreateGroup -->
+    <string name="prompt_name">Name</string>
+    <string name="prompt_description">Description</string>
+    <string name="action_create_group">Create Group</string>
+
+    <!--Strings related to DeleteGroup -->
+    <string name="managed_groups">Groups you manage: </string>
+
+
 </resources>

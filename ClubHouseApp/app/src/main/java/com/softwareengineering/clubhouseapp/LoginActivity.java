@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -326,20 +327,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                userCursor = db.rawQuery("SELECT EMAIL, PASSWORD FROM USERS WHERE EMAIL = ? "
+                userCursor = db.rawQuery("SELECT EMAIL, PASSWORD, _id FROM USERS WHERE EMAIL = ? "
                         + "AND PASSWORD = ?", whereArgs);
+                return true;
             } catch (SQLiteException e) {
                 return false;
             }
-
-            if(userCursor.moveToFirst()){
-                Intent intent = new Intent(LoginActivity.this, UserMenu.class);
-                intent.putExtra("user", mEmail);
-                startActivity(intent);
-                return true;
-            }
-
-            return false;
         }
 
         @Override
@@ -349,6 +342,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+                if(userCursor.moveToFirst()){
+                    Intent intent = new Intent(LoginActivity.this, UserMenu.class);
+                    intent.putExtra("userId", userCursor.getInt(2));
+                    intent.putExtra("email", userCursor.getString(0));
+                    startActivity(intent);
+                }
             } else {
                 Toast.makeText(LoginActivity.this, "The email or password that you entered was incorrect.", Toast.LENGTH_LONG).show();
             }
