@@ -57,6 +57,16 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         db.insert("USER_IN_GROUP", null, userGroupValues);
     }
 
+    public static boolean updateUser(SQLiteDatabase db, int id, String email, String bio, int resourceId) {
+        int res;
+        ContentValues userValues = new ContentValues();
+        userValues.put("EMAIL", email);
+        userValues.put("BIO", bio);
+        userValues.put("IMAGE_RESOURCE_ID", resourceId);
+        res = db.update("USERS", userValues, "_id = ?", new String[] {String.valueOf(id)});
+        return (res == 1);
+    }
+
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
             db.execSQL("CREATE TABLE USERS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "

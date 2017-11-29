@@ -7,26 +7,15 @@
     tools:context="com.softwareengineering.clubhouseapp.UserMenu"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/user_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/user_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/group_icon"/>
-
-        <TextView
-            android:id="@+id/user_bio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text=""/>
-
-    </LinearLayout>
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text=""/>
 
     <Button
         android:id="@+id/view_profile_button"
@@ -62,4 +51,5 @@
         android:layout_height="wrap_content"
         android:text="@string/view_calendar" />
         //android:onClick="onClickViewCalendar"/>
+
 </LinearLayout>
