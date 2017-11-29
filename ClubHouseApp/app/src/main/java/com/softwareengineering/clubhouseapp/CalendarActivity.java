@@ -19,7 +19,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private  static final String TAG = "CalendarActivity";
     private CalendarView mCalendarView;
-    private TextView thedate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

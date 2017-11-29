@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
+//A way to show the date and show events for that date
 public class CalendarDayView extends AppCompatActivity {
 
     @Override

@@ -56,7 +56,8 @@
         <activity
             android:name=".CalendarActivity"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".CalendarDayView"></activity>
+        <activity android:name=".CalendarDayView" />
+        <activity android:name=".EventCreation"></activity>
     </application>
 
 </manifest>
