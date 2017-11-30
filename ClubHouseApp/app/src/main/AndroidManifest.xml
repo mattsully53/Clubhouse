@@ -23,10 +23,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- <activity -->
+        <!-- android:name=".UserMenu" -->
+        <!-- android:label="@string/app_name"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
         <activity
             android:name=".GroupMenuActivity"
-            android:label="@string/title_activity_group_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".UserMenu" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:parentActivityName=".LoginActivity" />
+        <activity
+            android:name=".ViewGroupsActivity"
+            android:parentActivityName=".UserMenu" />
+        <activity
+            android:name=".UserMenu"
+            android:parentActivityName=".LoginActivity" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:parentActivityName=".UserMenu" />
+        <activity
+            android:name=".ViewMembersActivity"
+            android:parentActivityName=".GroupMenuActivity" />
+        <activity
+            android:name=".JoinGroupActivity"
+            android:parentActivityName=".UserMenu" />
+        <activity
+            android:name=".CreateGroupActivity"
+            android:parentActivityName=".UserMenu" />
+        <activity
+            android:name=".EditUserProfileActivity"
+            android:parentActivityName=".UserProfileActivity" />
+        <activity android:name=".DeleteGroupActivity"></activity>
     </application>
 
 </manifest>

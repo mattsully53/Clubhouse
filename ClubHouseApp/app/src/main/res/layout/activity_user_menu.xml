@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softwareengineering.clubhouseapp.UserMenu"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/view_profile_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_profile"
+        android:onClick="onClickViewProfile"/>
+
+    <Button
+        android:id="@+id/create_group_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_group"
+        android:onClick="onClickCreateGroup"/>
+
+    <Button
+        android:id="@+id/join_group_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/join_group"
+        android:onClick="onClickJoinGroup"/>
+
+    <Button
+        android:id="@+id/view_groups_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_groups"
+        android:onClick="onClickViewGroups"/>
+
+    <Button
+        android:id="@+id/view_calendar_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_calendar" />
+        //android:onClick="onClickViewCalendar"/>
+
+</LinearLayout>

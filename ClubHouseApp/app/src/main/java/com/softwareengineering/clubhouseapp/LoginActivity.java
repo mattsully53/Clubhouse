@@ -3,7 +3,11 @@ package com.softwareengineering.clubhouseapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +33,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +49,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -61,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private SQLiteDatabase db;
+    private Cursor userCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +83,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void onClickLogin (View view) {
+        attemptLogin();
+    }
+
+    public void onClickCreateAccount (View view) {
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     private void populateAutoComplete() {
@@ -174,6 +176,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        } else if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError("This field is required");
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -306,25 +312,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(LoginActivity.this);
+            String[] whereArgs = new String[] {
+                    mEmail,
+                    mPassword
+            };
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                db = clubhouseDatabaseHelper.getReadableDatabase();
+                userCursor = db.rawQuery("SELECT EMAIL, PASSWORD, _id FROM USERS WHERE EMAIL = ? "
+                        + "AND PASSWORD = ?", whereArgs);
+                return true;
+            } catch (SQLiteException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -334,9 +334,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+                if(userCursor.moveToFirst()){
+                    Intent intent = new Intent(LoginActivity.this, UserMenu.class);
+                    intent.putExtra("userId", userCursor.getInt(2));
+                    startActivity(intent);
+                }
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast.makeText(LoginActivity.this, "The email or password that you entered was incorrect.", Toast.LENGTH_LONG).show();
             }
         }
 
