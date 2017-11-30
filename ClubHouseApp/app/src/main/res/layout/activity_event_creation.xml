@@ -12,7 +12,7 @@
         android:id="@+id/Event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="What're you going to do today?"
+        android:hint="Text your Event here"
         android:inputType="text"
         android:maxLines="5" />
 

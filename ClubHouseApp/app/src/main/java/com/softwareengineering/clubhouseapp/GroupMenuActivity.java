@@ -2,6 +2,7 @@ package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -21,14 +22,16 @@ public class GroupMenuActivity extends Activity {
     public static final String EXTRA_GROUPID = "groupId";
     private Cursor cursor;
     private SQLiteDatabase db;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_menu);
 
-        //Get the group from the intent
+        //Get the group and user from the intent
         int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        userId = (Integer) getIntent().getExtras().get("userId");
 
         //PopulateViews
         new PopulateGroupMenuTask().execute(groupId);
@@ -124,23 +127,26 @@ public class GroupMenuActivity extends Activity {
             db.close();
         }
 
-    /*public void onClickViewCalendar (View view) {
-        Intent intent = new Intent(this, ViewCalendarActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickViewCalendar (View view) {
+//        Intent intent = new Intent(this, ViewCalendarActivity.class);
+//        startActivity(intent);
+//    }
 
     public void onClickViewMembers (View view) {
         Intent intent = new Intent(this, ViewMembersActivity.class);
+        int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        intent.putExtra("groupId", groupId);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
-
-    public void onClickViewResources (View view) {
-        Intent intent = new Intent(this, ViewResourcesActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickJoinMeeting (View view) {
-        Intent intent = new Intent(this, JoinMeetingActivity.class);
-        startActivity(intent);
-    }*/
+//
+//    public void onClickViewResources (View view) {
+//        Intent intent = new Intent(this, ViewResourcesActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickJoinMeeting (View view) {
+//        Intent intent = new Intent(this, JoinMeetingActivity.class);
+//        startActivity(intent);
+//    }
 }
