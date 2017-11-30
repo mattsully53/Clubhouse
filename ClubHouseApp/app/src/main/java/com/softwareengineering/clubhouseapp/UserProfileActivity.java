@@ -22,6 +22,12 @@ public class UserProfileActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor userCursor;
 
+    private String mEmail;
+    private String mBio;
+    private int mUserId;
+    private int mImageId;
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,30 +35,26 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        final String email = intent.getStringExtra("user");
+        userId = (Integer) getIntent().getExtras().get("userId");
 
-        mQueryTask = new getFullUserTask(email);
+        mQueryTask = new getFullUserTask();
         mQueryTask.execute((Void) null);
-
 
         Button mEditProfileButton = (Button) findViewById(R.id.edit_button);
         mEditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
-                intent.putExtra("email", email);
+                intent.putExtra("email", mEmail);
+                intent.putExtra("bio", mBio);
+                intent.putExtra("user_id", mUserId);
+                intent.putExtra("image_id", mImageId);
                 startActivity(intent);
             }
         });
     }
 
-    public class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-
-        getFullUserTask(String email) {
-            mEmail = email;
-        }
+    private class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
 
         protected Boolean doInBackground(Void... params) {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
@@ -78,22 +80,22 @@ public class UserProfileActivity extends AppCompatActivity {
                 //Move to the first record in the cursor
                 if (userCursor.moveToFirst()) {
 
-                    String emailText = userCursor.getString(userCursor.getColumnIndex("EMAIL"));
-                    String bioText = userCursor.getString(userCursor.getColumnIndex("BIO"));
-                    int photoId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
+                    mBio = userCursor.getString(userCursor.getColumnIndex("BIO"));
+                    mImageId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
+                    mUserId = userCursor.getInt(userCursor.getColumnIndex("_id"));
 
                     //Populate User Icon
                     ImageView userIcon = (ImageView)findViewById(R.id.user_icon);
-                    userIcon.setImageResource(photoId);
-                    userIcon.setContentDescription(emailText);
+                    userIcon.setImageResource(mImageId);
+                    userIcon.setContentDescription(mEmail);
 
                     //Populate User Bio
                     TextView userBio = (TextView) findViewById(R.id.user_bio);
-                    userBio.setText(bioText);
+                    userBio.setText(mBio);
 
                     //Populate User Email
                     TextView userEmail = (TextView) findViewById(R.id.user_email);
-                    userEmail.setText(emailText);
+                    userEmail.setText(mEmail);
                 }
             }
         }
