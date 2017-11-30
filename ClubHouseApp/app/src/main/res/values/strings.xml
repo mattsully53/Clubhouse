@@ -44,6 +44,7 @@
     <string name="bookmarked_groups">Your bookmarked clubs:</string>
     <string name="enrolled_groups">Clubs you are a part of:</string>
 
+<<<<<<< HEAD
     <!--Strings related to ViewUsers -->
     <string name="users_in_group">Users who are a part of this group:</string>
 
@@ -57,3 +58,10 @@
 
 
 </resources>
+=======
+    <!--Strings related to ViewResources-->
+    <string name="resources_groups">Your club resources:</string>
+    <string name="add_resources">Add Resources</string>
+    <string name="delete_resources">Delete Resources</string>
+</resources>
+>>>>>>> f0aa79355a18be0da9a12a213cbb10285fd896fd

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreateGroupActivity extends Activity {
+public abstract class CreateGroupActivity extends Activity {
 
     private EditText name, description;
 
@@ -51,6 +51,56 @@ public class CreateGroupActivity extends Activity {
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
+
+    //Adding Picture Functionalities
+    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+
+    CreateGroupActivity(intent, 0) {
+
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(imageBitmap);
+        }
+    }
+
+    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+Intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+    startActivityForResult(intent, 0);
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            setPic();
+        }
+    }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = mImageView.getWidth();
+        int targetH = mImageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        ClubhouseDatabaseHelper.Options bmOptions = new ClubhouseDatabaseHelper().Options();
+        bmOptions.inJustDecodeBounds = true;
+        ClubhouseDatabaseHelper.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        mImageView.setImageBitmap(bitmap);
+    }
+
+
 
     @Override
     protected void onDestroy() {

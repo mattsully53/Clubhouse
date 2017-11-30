@@ -1,11 +1,14 @@
 package com.softwareengineering.clubhouseapp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -53,3 +56,4 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 }
+

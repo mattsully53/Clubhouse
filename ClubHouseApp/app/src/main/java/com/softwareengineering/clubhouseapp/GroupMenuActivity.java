@@ -139,6 +139,7 @@ public class GroupMenuActivity extends Activity {
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
+<<<<<<< HEAD
 //
 //    public void onClickViewResources (View view) {
 //        Intent intent = new Intent(this, ViewResourcesActivity.class);
@@ -149,4 +150,16 @@ public class GroupMenuActivity extends Activity {
 //        Intent intent = new Intent(this, JoinMeetingActivity.class);
 //        startActivity(intent);
 //    }
+=======
+
+    public void onClickViewResources (View view) {
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickJoinMeeting (View view) {
+        Intent intent = new Intent(this, JoinMeetingActivity.class);
+        startActivity(intent);
+    }*/
+>>>>>>> f0aa79355a18be0da9a12a213cbb10285fd896fd
 }
