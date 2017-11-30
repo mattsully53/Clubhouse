@@ -41,6 +41,7 @@ public class CreateGroupActivity extends Activity {
         groupValues.put("NAME", groupName);
         groupValues.put("DESCRIPTION", groupDescription);
         groupValues.put("IMAGE_RESOURCE_ID", R.drawable.blank_profile);
+        groupValues.put("OWNER_ID", userId);
         try {
             db = clubhouseDatabaseHelper.getWritableDatabase();
             db.insert("GROUPS", null, groupValues);

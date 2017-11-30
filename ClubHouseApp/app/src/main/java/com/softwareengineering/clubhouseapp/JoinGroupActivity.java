@@ -53,41 +53,6 @@ public class JoinGroupActivity extends Activity {
         listGroups.setOnItemClickListener(groupClickListener);
     }
 
-    private boolean userInGroup(int groupId) {
-        new CheckMembershipTask().execute(groupId, userId);
-        Log.d("TAG", "userInGroup groupId: " + groupId);
-        if (userGroupCursor != null && userGroupCursor.getCount()>0) {
-            return true;
-        } else return false;
-    }
-
-    private class CheckMembershipTask extends AsyncTask<Integer,Void,Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Integer... integers) {
-            Integer groupId = integers[0];
-            Integer userId = integers[1];
-            String[] whereArgs = new String[] {groupId.toString(), userId.toString()};
-            ClubhouseDatabaseHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(JoinGroupActivity.this);
-            try {
-                db = clubhouseDatabaseHelper.getReadableDatabase();
-                userGroupCursor = db.rawQuery("SELECT GROUP_ID, USER_ID FROM USER_IN_GROUP WHERE GROUP_ID = ? AND USER_ID = ?",
-                        whereArgs);
-                return true;
-            } catch (SQLiteException e) {
-                return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if (!success) {
-                Toast toast = Toast.makeText(JoinGroupActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
-    }
-
     private class UpdateGroupDatabaseTask extends AsyncTask<Integer,Void,Boolean> {
 
         @Override

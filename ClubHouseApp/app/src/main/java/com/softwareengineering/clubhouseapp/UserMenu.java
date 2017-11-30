@@ -21,14 +21,14 @@ public class UserMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
         userId = (Integer) getIntent().getExtras().get("userId");
-        Integer user = userId;
-        SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(this);
-        db = clubhouseDatabaseHelper.getWritableDatabase();
-        cursor = db.rawQuery("SELECT NAME FROM USERS WHERE _id = ?", new String[] {user.toString()});
-        String userName = cursor.getString(0);
-        // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.user_name);
-        textView.setText(userName);
+//        Integer user = userId;
+//        SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(this);
+//        db = clubhouseDatabaseHelper.getWritableDatabase();
+//        cursor = db.rawQuery("SELECT NAME FROM USERS WHERE _id = ?", new String[] {user.toString()});
+//        String userName = cursor.getString(0);
+//        // Capture the layout's TextView and set the string as its text
+//        TextView textView = (TextView) findViewById(R.id.user_name);
+//        textView.setText(userName);
 
         Button mViewProfileButton = (Button) findViewById(R.id.view_profile_button);
         mViewProfileButton.setOnClickListener(new View.OnClickListener() {

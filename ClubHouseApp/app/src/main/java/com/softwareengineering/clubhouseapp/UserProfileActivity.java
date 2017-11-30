@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private getFullUserTask mQueryTask = null;
-
     private SQLiteDatabase db;
     private Cursor userCursor;
 
@@ -37,8 +35,7 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userId = (Integer) getIntent().getExtras().get("userId");
 
-        mQueryTask = new getFullUserTask();
-        mQueryTask.execute((Void) null);
+        new GetFullUserTask().execute(userId);
 
         Button mEditProfileButton = (Button) findViewById(R.id.edit_button);
         mEditProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -54,17 +51,17 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    private class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
+    private class GetFullUserTask extends AsyncTask<Integer, Void, Boolean> {
 
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Integer... params) {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
-
+            Integer id = params[0];
             String[] whereArgs = new String[] {
-                    mEmail
+                    id.toString()
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                userCursor = db.rawQuery("SELECT * FROM USERS WHERE EMAIL = ? ", whereArgs);
+                userCursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ? ", whereArgs);
                 return true;
             } catch (SQLiteException e) {
                 return false;

@@ -43,6 +43,7 @@
     <!--Strings related to ViewGroups -->
     <string name="bookmarked_groups">Your bookmarked clubs:</string>
     <string name="enrolled_groups">Clubs you are a part of:</string>
+    <string name="delete_group">Delete a group</string>
 
     <!--Strings related to ViewUsers -->
     <string name="users_in_group">Users who are a part of this group:</string>

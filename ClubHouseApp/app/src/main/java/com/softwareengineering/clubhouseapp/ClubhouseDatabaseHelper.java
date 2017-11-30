@@ -80,7 +80,8 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "DESCRIPTION TEXT, "
                     + "IMAGE_RESOURCE_ID INTEGER, "
                     + "BOOKMARK NUMERIC, "
-                    + "OWNER_ID INTEGER);");
+                    + "OWNER_ID INTEGER, "
+                    + "FOREIGN KEY(OWNER_ID) REFERENCES USERS(_id));");
             db.execSQL("CREATE TABLE USER_IN_GROUP (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "GROUP_ID INTEGER, "
                     + "USER_ID INTEGER, "

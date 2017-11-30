@@ -114,9 +114,14 @@ public class ViewGroupsActivity extends Activity {
                         new int[] {android.R.id.text1},
                         0);
                 listBookmarks.setAdapter(bookmarkListAdapter);
-
             }
         }
+    }
+
+    public void onClickDeleteGroup(View view) {
+        Intent intent = new Intent(this, DeleteGroupActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 
     @Override
