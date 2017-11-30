@@ -43,24 +43,20 @@ public class UserProfileActivity extends AppCompatActivity {
         mQueryTask = new getFullUserTask();
         mQueryTask.execute((Void) null);
 
-        Button mEditProfileButton = (Button) findViewById(R.id.edit_button);
-        mEditProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
-                intent.putExtra("name", mName);
-                intent.putExtra("email", mEmail);
-                intent.putExtra("bio", mBio);
-                intent.putExtra("user_id", mUserId);
-                intent.putExtra("image_id", mImageId);
-                startActivityForResult(intent, 1);
-            }
-        });
-
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
+    }
+
+    public void onClickEditProfile (View view) {
+        Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
+        intent.putExtra("name", mName);
+        intent.putExtra("email", mEmail);
+        intent.putExtra("bio", mBio);
+        intent.putExtra("user_id", mUserId);
+        intent.putExtra("image_id", mImageId);
+        startActivityForResult(intent, 1);
     }
 
     @Override
