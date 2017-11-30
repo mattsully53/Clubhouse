@@ -24,6 +24,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor userCursor;
 
+    private String mName;
     private String mEmail;
     private String mBio;
     private int mUserId;
@@ -47,6 +48,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
+                intent.putExtra("name", mName);
                 intent.putExtra("email", mEmail);
                 intent.putExtra("bio", mBio);
                 intent.putExtra("user_id", mUserId);
@@ -63,7 +65,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_CANCELED) {
                 mQueryTask = new getFullUserTask();
@@ -98,6 +99,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 //Move to the first record in the cursor
                 if (userCursor.moveToFirst()) {
 
+                    mName = userCursor.getString(userCursor.getColumnIndex("NAME"));
                     mEmail = userCursor.getString(userCursor.getColumnIndex("EMAIL"));
                     mBio = userCursor.getString(userCursor.getColumnIndex("BIO"));
                     mImageId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
@@ -115,6 +117,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     //Populate User Email
                     TextView userEmail = (TextView) findViewById(R.id.user_email);
                     userEmail.setText(mEmail);
+
+                    //Populate User Name
+                    TextView userName = (TextView) findViewById(R.id.user_name);
+                    userName.setText(mName);
                 }
             }
         }

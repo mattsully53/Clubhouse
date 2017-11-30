@@ -11,8 +11,8 @@
         android:id="@+id/view_profile_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_profile" />
-        //android:onClick="onClickViewProfile"/>
+        android:text="@string/view_profile"
+        android:onClick="onClickViewProfile"/>
 
     <Button
         android:id="@+id/create_group_button"

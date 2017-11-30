@@ -88,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/create"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="onClickCreateAccount"/>
 
         </LinearLayout>
     </ScrollView>
