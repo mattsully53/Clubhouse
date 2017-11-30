@@ -1,5 +1,6 @@
 package com.softwareengineering.clubhouseapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -58,9 +59,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 );
 
                 if (check){
-                    Intent intent = new Intent(EditUserProfileActivity.this, UserProfileActivity.class);
-                    intent.putExtra("email", mEmailView.getText().toString());
-                    startActivity(intent);
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_CANCELED, returnIntent);
+                    finish();
                 } else {
                     Toast.makeText(EditUserProfileActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
                 }

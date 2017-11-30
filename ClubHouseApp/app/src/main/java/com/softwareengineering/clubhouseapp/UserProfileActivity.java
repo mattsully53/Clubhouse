@@ -1,11 +1,13 @@
 package com.softwareengineering.clubhouseapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -49,9 +51,25 @@ public class UserProfileActivity extends AppCompatActivity {
                 intent.putExtra("bio", mBio);
                 intent.putExtra("user_id", mUserId);
                 intent.putExtra("image_id", mImageId);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                mQueryTask = new getFullUserTask();
+                mQueryTask.execute((Void) null);
+            }
+        }
     }
 
     private class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
@@ -60,11 +78,11 @@ public class UserProfileActivity extends AppCompatActivity {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
 
             String[] whereArgs = new String[] {
-                    mEmail
+                    String.valueOf(userId)
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                userCursor = db.rawQuery("SELECT * FROM USERS WHERE EMAIL = ? ", whereArgs);
+                userCursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ? ", whereArgs);
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -80,6 +98,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 //Move to the first record in the cursor
                 if (userCursor.moveToFirst()) {
 
+                    mEmail = userCursor.getString(userCursor.getColumnIndex("EMAIL"));
                     mBio = userCursor.getString(userCursor.getColumnIndex("BIO"));
                     mImageId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
                     mUserId = userCursor.getInt(userCursor.getColumnIndex("_id"));
