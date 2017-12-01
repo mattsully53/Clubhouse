@@ -37,95 +37,95 @@ public class GroupMenuActivity extends Activity {
         new PopulateGroupMenuTask().execute(groupId);
     }
 
-        private class PopulateGroupMenuTask extends AsyncTask<Integer, Void, Boolean> {
+    private class PopulateGroupMenuTask extends AsyncTask<Integer, Void, Boolean> {
 
-            protected Boolean doInBackground(Integer... groups) {
-                int groupId = groups[0];
-                SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(GroupMenuActivity.this);
-                try {
-                    db = clubhouseDatabaseHelper.getReadableDatabase();
-                    cursor = db.query("GROUPS",
-                            new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "BOOKMARK"},
-                            "_id = ?",
-                            new String[]{Integer.toString(groupId)},
-                            null, null, null);
-                    return true;
-                } catch (SQLiteException e) {
-                    return false;
-                }
-            }
-
-            protected void onPostExecute(Boolean success) {
-                if (!success) {
-                    Toast toast = Toast.makeText(GroupMenuActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
-                    //Move to the first record in the cursor
-                    if (cursor.moveToFirst()) {
-                        //Get the group details from the cursor
-                        String nameText = cursor.getString(0);
-                        String descriptionText = cursor.getString(1);
-                        int photoId = cursor.getInt(2);
-                        boolean isBookmarked = (cursor.getInt(3) == 1);
-
-                        //Populate Group Icon
-                        ImageView groupIcon = (ImageView)findViewById(R.id.group_icon);
-                        groupIcon.setImageResource(photoId);
-                        groupIcon.setContentDescription(nameText);
-
-                        //Populate Group Description
-                        TextView groupDescription = (TextView) findViewById(R.id.group_description);
-                        groupDescription.setText(descriptionText);
-
-                        //Populate Bookmark Checkbox
-                        CheckBox checkbox = (CheckBox)findViewById(R.id.bookmark);
-                        checkbox.setChecked(isBookmarked);
-                    }
-                }
+        protected Boolean doInBackground(Integer... groups) {
+            int groupId = groups[0];
+            SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(GroupMenuActivity.this);
+            try {
+                db = clubhouseDatabaseHelper.getReadableDatabase();
+                cursor = db.query("GROUPS",
+                        new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "BOOKMARK"},
+                        "_id = ?",
+                        new String[]{Integer.toString(groupId)},
+                        null, null, null);
+                return true;
+            } catch (SQLiteException e) {
+                return false;
             }
         }
 
-        public void onClickBookmark (View view) {
-            int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
-            new UpdateBookmarkTask().execute(groupId);
-        }
-
-        private class UpdateBookmarkTask extends AsyncTask<Integer, Void, Boolean> {
-            ContentValues groupValues;
-
-            protected void onPreExecute() {
-                CheckBox checkbox = (CheckBox)findViewById(R.id.bookmark);
-                groupValues = new ContentValues();
-                groupValues.put("BOOKMARK", checkbox.isChecked());
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(GroupMenuActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
+                toast.show();
             }
+            else {
+                //Move to the first record in the cursor
+                if (cursor.moveToFirst()) {
+                    //Get the group details from the cursor
+                    String nameText = cursor.getString(0);
+                    String descriptionText = cursor.getString(1);
+                    int photoId = cursor.getInt(2);
+                    boolean isBookmarked = (cursor.getInt(3) == 1);
 
-            protected Boolean doInBackground(Integer... groups){
-                int groupId = groups[0];
-                SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(GroupMenuActivity.this);
-                try {
-                    db = clubhouseDatabaseHelper.getWritableDatabase();
-                    db.update("GROUPS", groupValues, "_id = ?", new String[] {Integer.toString(groupId)});
-                    return true;
-                } catch (SQLiteException e) {
-                    return false;
-                }
-            }
+                    //Populate Group Icon
+                    ImageView groupIcon = (ImageView)findViewById(R.id.group_icon);
+                    groupIcon.setImageResource(photoId);
+                    groupIcon.setContentDescription(nameText);
 
-            protected void onPostExecute(Boolean success) {
-                if (!success) {
-                    Toast toast = Toast.makeText(GroupMenuActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
-                    toast.show();
+                    //Populate Group Description
+                    TextView groupDescription = (TextView) findViewById(R.id.group_description);
+                    groupDescription.setText(descriptionText);
+
+                    //Populate Bookmark Checkbox
+                    CheckBox checkbox = (CheckBox)findViewById(R.id.bookmark);
+                    checkbox.setChecked(isBookmarked);
                 }
             }
         }
+    }
 
-        @Override
-        public void onDestroy () {
-            super.onDestroy();
-            cursor.close();
-            db.close();
+    public void onClickBookmark (View view) {
+        int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        new UpdateBookmarkTask().execute(groupId);
+    }
+
+    private class UpdateBookmarkTask extends AsyncTask<Integer, Void, Boolean> {
+        ContentValues groupValues;
+
+        protected void onPreExecute() {
+            CheckBox checkbox = (CheckBox)findViewById(R.id.bookmark);
+            groupValues = new ContentValues();
+            groupValues.put("BOOKMARK", checkbox.isChecked());
         }
+
+        protected Boolean doInBackground(Integer... groups){
+            int groupId = groups[0];
+            SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(GroupMenuActivity.this);
+            try {
+                db = clubhouseDatabaseHelper.getWritableDatabase();
+                db.update("USER_IN_GROUP", groupValues, "_id = ?", new String[] {Integer.toString(groupId)});
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(GroupMenuActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        cursor.close();
+        db.close();
+    }
 
 //    public void onClickViewCalendar (View view) {
 //        Intent intent = new Intent(this, ViewCalendarActivity.class);

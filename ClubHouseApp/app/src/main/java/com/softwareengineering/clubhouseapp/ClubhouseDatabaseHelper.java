@@ -79,12 +79,12 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "NAME TEXT, "
                     + "DESCRIPTION TEXT, "
                     + "IMAGE_RESOURCE_ID INTEGER, "
-                    + "BOOKMARK NUMERIC, "
                     + "OWNER_ID INTEGER, "
                     + "FOREIGN KEY(OWNER_ID) REFERENCES USERS(_id));");
             db.execSQL("CREATE TABLE USER_IN_GROUP (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "GROUP_ID INTEGER, "
                     + "USER_ID INTEGER, "
+                    + "BOOKMARK NUMERIC, "
                     + "FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(_id), "
                     + "FOREIGN KEY(USER_ID) REFERENCES USERS(_id));");
             insertUser(db, "Bobby Joe", "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);

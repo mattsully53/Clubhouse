@@ -29,7 +29,7 @@ public class DeleteGroupActivity extends Activity {
         userId = (Integer)getIntent().getExtras().get("userId");
 
         //Populate the ListView with available groups
-        new UpdateGroupListTask().execute("GROUPS");
+        new UpdateGroupListTask().execute();
 
         //Create the group list listener
         ListView listGroups = findViewById(R.id.list_groups);
@@ -73,21 +73,19 @@ public class DeleteGroupActivity extends Activity {
         }
     }
 
-    private class UpdateGroupListTask extends AsyncTask<String,Void,Boolean> {
+    private class UpdateGroupListTask extends AsyncTask<Void,Void,Boolean> {
         ListView listGroups;
 
         protected void onPreExecute() {
             listGroups = findViewById(R.id.list_groups);
         }
 
-        protected Boolean doInBackground(String...table) {
-            String tableName = table[0];
+        protected Boolean doInBackground(Void...params) {
+            Integer id = userId;
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(DeleteGroupActivity.this);
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                groupCursor = db.query(tableName,
-                        new String[] {"_id", "NAME"},
-                        null,null,null,null,null);
+                groupCursor = db.rawQuery("SELECT _id, NAME FROM GROUPS WHERE OWNER_ID = ?", new String[] {id.toString()});
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -114,7 +112,7 @@ public class DeleteGroupActivity extends Activity {
     @Override
     public void onRestart() {
         super.onRestart();
-        new UpdateGroupListTask().execute("GROUPS");
+        new UpdateGroupListTask().execute();
     }
 
     @Override

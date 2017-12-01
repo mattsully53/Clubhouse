@@ -1,11 +1,14 @@
 package com.softwareengineering.clubhouseapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.opengl.GLException;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,9 +49,24 @@ public class UserProfileActivity extends AppCompatActivity {
                 intent.putExtra("bio", mBio);
                 intent.putExtra("user_id", mUserId);
                 intent.putExtra("image_id", mImageId);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                new GetFullUserTask().execute(userId);
+            }
+        }
     }
 
     private class GetFullUserTask extends AsyncTask<Integer, Void, Boolean> {
@@ -57,7 +75,8 @@ public class UserProfileActivity extends AppCompatActivity {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
             Integer id = params[0];
             String[] whereArgs = new String[] {
-                    id.toString()
+                    id.toString(),
+                    String.valueOf(userId)
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
@@ -77,6 +96,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 //Move to the first record in the cursor
                 if (userCursor.moveToFirst()) {
 
+                    mEmail = userCursor.getString(userCursor.getColumnIndex("EMAIL"));
                     mBio = userCursor.getString(userCursor.getColumnIndex("BIO"));
                     mImageId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
                     mUserId = userCursor.getInt(userCursor.getColumnIndex("_id"));

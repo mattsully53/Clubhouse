@@ -83,10 +83,7 @@ public class ViewGroupsActivity extends Activity {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
                 groupCursor = db.rawQuery("SELECT GROUPS._id, NAME FROM GROUPS JOIN USER_IN_GROUP ON GROUPS._id = USER_IN_GROUP.GROUP_ID WHERE USER_IN_GROUP.USER_ID = ?", new String[] {userId.toString()} );
                 Log.d("TAG", "doInBackground: " + groupCursor.moveToFirst());
-                bookmarkCursor = db.query("GROUPS",
-                        new String[] {"_id", "NAME"},
-                        "BOOKMARK = 1",
-                        null,null,null,null);
+                bookmarkCursor = db.rawQuery("SELECT GROUPS._id, NAME FROM GROUPS JOIN USER_IN_GROUP ON GROUPS._id = USER_IN_GROUP.GROUP_ID WHERE USER_IN_GROUP.USER_ID = ? AND BOOKMARK = 1", new String[] {userId.toString()});
                 return true;
             } catch (SQLiteException e) {
                 return false;
