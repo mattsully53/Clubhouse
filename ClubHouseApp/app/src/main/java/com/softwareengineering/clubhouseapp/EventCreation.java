@@ -1,9 +1,11 @@
 package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +21,6 @@ public class EventCreation extends AppCompatActivity {
     private EditText mDescription;
     private String mDate;
     private int mGroup;
-
     private SQLiteDatabase db;
     private Cursor eventCursor;
     @Override
@@ -27,7 +28,8 @@ public class EventCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation);
         Intent intent = getIntent();
-        final String date = intent.getStringExtra("date");
+        mDate = intent.getStringExtra("date");
+        mGroup = intent.getIntExtra("groupId", 0);
         mDescription = (EditText) findViewById(R.id.Event);
 
         Button mCreateEventButton = (Button) findViewById(R.id.create_event_button);
@@ -47,6 +49,12 @@ public class EventCreation extends AppCompatActivity {
                 } else {
                     Toast.makeText(EventCreation.this, "Something went wrong.", Toast.LENGTH_LONG).show();
                 }
+
+
+
+
+
+
             }
 
 

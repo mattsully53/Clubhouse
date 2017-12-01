@@ -62,7 +62,16 @@
         <activity
             android:name=".EditUserProfileActivity"
             android:parentActivityName=".UserProfileActivity" />
-        <activity android:name=".DeleteGroupActivity"></activity>
+        <activity android:name=".DeleteGroupActivity" />
+        <activity
+            android:name=".CalendarActivity"
+            android:parentActivityName=".UserMenu"/>
+        <activity
+            android:name="CalendarDayView"
+            android:parentActivityName=".CalendarActivity"/>
+        <activity
+            android:name="EventCreation"
+            android:parentActivityName=".CalendarDayView"/>
     </application>
 
 </manifest>

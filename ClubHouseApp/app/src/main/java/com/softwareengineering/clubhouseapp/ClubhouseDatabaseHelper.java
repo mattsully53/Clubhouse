@@ -57,9 +57,10 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         db.insert("USER_IN_GROUP", null, userGroupValues);
     }
 
-    public static boolean updateUser(SQLiteDatabase db, int id, String email, String bio, int resourceId) {
+    public static boolean updateUser(SQLiteDatabase db, int id, String name, String email, String bio, int resourceId) {
         int res;
         ContentValues userValues = new ContentValues();
+        userValues.put("NAME", name);
         userValues.put("EMAIL", email);
         userValues.put("BIO", bio);
         userValues.put("IMAGE_RESOURCE_ID", resourceId);
@@ -99,9 +100,9 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
             insertUser(db, "Bobby Joe", "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);
             insertUser(db, "Betty Lu", "test2@test.com", "testpass2", "This is a test user2.", R.drawable.blank_profile);
             db.execSQL("CREATE TABLE EVENT (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "DESCRIPTION STRING, "
+                    + "DESCRIPTION TEXT, "
                     + "GROUP_ID INTEGER, "
-                    + "DATE STRING, "
+                    + "DATE TEXT, "
                     + "FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(_id));");
             insertEvent(db, "Meeting at 4:00", 1, "11/29/17");
 

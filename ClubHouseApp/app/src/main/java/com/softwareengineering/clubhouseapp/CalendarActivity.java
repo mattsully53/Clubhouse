@@ -26,6 +26,7 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         mCalendarView=(CalendarView) findViewById(R.id.calendarView);
 
+        final int groupId = (Integer) getIntent().getExtras().get("groupId");
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
@@ -33,6 +34,7 @@ public class CalendarActivity extends AppCompatActivity {
                                             int dayOfMonth) {
                 Intent intent = new Intent(CalendarActivity.this, CalendarDayView.class);
                 intent.putExtra( "date",    (month+1) + "/" + dayOfMonth + "/" + year);
+                intent.putExtra("groupId",groupId);
 
                 startActivity(intent);
             }

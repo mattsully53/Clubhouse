@@ -51,11 +51,4 @@ public class CreateGroupActivity extends Activity {
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.close();
-    }
-
 }

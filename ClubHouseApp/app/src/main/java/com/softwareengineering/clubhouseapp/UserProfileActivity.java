@@ -1,11 +1,13 @@
 package com.softwareengineering.clubhouseapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor userCursor;
 
+    private String mName;
     private String mEmail;
     private String mBio;
     private int mUserId;
@@ -40,18 +43,30 @@ public class UserProfileActivity extends AppCompatActivity {
         mQueryTask = new getFullUserTask();
         mQueryTask.execute((Void) null);
 
-        Button mEditProfileButton = (Button) findViewById(R.id.edit_button);
-        mEditProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
-                intent.putExtra("email", mEmail);
-                intent.putExtra("bio", mBio);
-                intent.putExtra("user_id", mUserId);
-                intent.putExtra("image_id", mImageId);
-                startActivity(intent);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+    }
+
+    public void onClickEditProfile (View view) {
+        Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
+        intent.putExtra("name", mName);
+        intent.putExtra("email", mEmail);
+        intent.putExtra("bio", mBio);
+        intent.putExtra("user_id", mUserId);
+        intent.putExtra("image_id", mImageId);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                mQueryTask = new getFullUserTask();
+                mQueryTask.execute((Void) null);
             }
-        });
+        }
     }
 
     private class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
@@ -60,11 +75,11 @@ public class UserProfileActivity extends AppCompatActivity {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
 
             String[] whereArgs = new String[] {
-                    mEmail
+                    String.valueOf(userId)
             };
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
-                userCursor = db.rawQuery("SELECT * FROM USERS WHERE EMAIL = ? ", whereArgs);
+                userCursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ? ", whereArgs);
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -80,6 +95,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 //Move to the first record in the cursor
                 if (userCursor.moveToFirst()) {
 
+                    mName = userCursor.getString(userCursor.getColumnIndex("NAME"));
+                    mEmail = userCursor.getString(userCursor.getColumnIndex("EMAIL"));
                     mBio = userCursor.getString(userCursor.getColumnIndex("BIO"));
                     mImageId = userCursor.getInt(userCursor.getColumnIndex("IMAGE_RESOURCE_ID"));
                     mUserId = userCursor.getInt(userCursor.getColumnIndex("_id"));
@@ -96,6 +113,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     //Populate User Email
                     TextView userEmail = (TextView) findViewById(R.id.user_email);
                     userEmail.setText(mEmail);
+
+                    //Populate User Name
+                    TextView userName = (TextView) findViewById(R.id.user_name);
+                    userName.setText(mName);
                 }
             }
         }
