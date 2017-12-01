@@ -43,7 +43,7 @@ public class ViewGroupsActivity extends Activity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         //Pass the group the user clicks on to GroupMenuActivity
                         Intent intent = new Intent(ViewGroupsActivity.this, GroupMenuActivity.class);
-                        intent.putExtra(GroupMenuActivity.EXTRA_GROUPID, (int) id);
+                        intent.putExtra("groupId", (int) id);
                         intent.putExtra("userId", userId);
                         startActivity(intent);
                     }

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ public class GroupMenuActivity extends Activity {
     public static final String EXTRA_GROUPID = "groupId";
     private Cursor cursor;
     private SQLiteDatabase db;
-    private int userId;
+    private int userId, groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,22 @@ public class GroupMenuActivity extends Activity {
         setContentView(R.layout.activity_group_menu);
 
         //Get the group and user from the intent
-        int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
+        groupId = (Integer) getIntent().getExtras().get("groupId");
         userId = (Integer) getIntent().getExtras().get("userId");
 
         //PopulateViews
         new PopulateGroupMenuTask().execute(groupId);
+
+        Button mViewCalendarButton = (Button) findViewById(R.id.view_calendar_button);
+        mViewCalendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupMenuActivity.this, CalendarActivity.class);
+                intent.putExtra("groupId",groupId);
+                intent.putExtra("userId",userId);
+                startActivity(intent);
+            }
+        });
     }
 
     private class PopulateGroupMenuTask extends AsyncTask<Integer, Void, Boolean> {
@@ -88,14 +100,15 @@ public class GroupMenuActivity extends Activity {
         db.close();
     }
 
-//    public void onClickViewCalendar (View view) {
-//        Intent intent = new Intent(this, ViewCalendarActivity.class);
-//        startActivity(intent);
-//    }
+    public void onClickViewCalendar (View view) {
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("groupId", groupId);
+        startActivity(intent);
+    }
 
     public void onClickViewMembers (View view) {
         Intent intent = new Intent(this, ViewMembersActivity.class);
-        int groupId = (Integer) getIntent().getExtras().get(EXTRA_GROUPID);
         intent.putExtra("groupId", groupId);
         intent.putExtra("userId", userId);
         startActivity(intent);
