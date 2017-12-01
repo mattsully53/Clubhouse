@@ -62,7 +62,8 @@
         <activity
             android:name=".EditUserProfileActivity"
             android:parentActivityName=".UserProfileActivity" />
-        <activity android:name=".DeleteGroupActivity"></activity>
+        <activity android:name=".DeleteGroupActivity" />
+        <activity android:name=".ResourceActivity"></activity>
     </application>
 
 </manifest>

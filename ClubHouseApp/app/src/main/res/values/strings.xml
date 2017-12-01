@@ -55,5 +55,8 @@
     <!--Strings related to DeleteGroup -->
     <string name="managed_groups">Groups you manage: </string>
 
+    <!--Strings related to Resources -->
+    <string name="resources_groups">Group Resources: </string>
+    <string name="upload_resources">Upload Resources: </string>
 
 </resources>
