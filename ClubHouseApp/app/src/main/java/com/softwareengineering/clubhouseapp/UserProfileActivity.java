@@ -11,9 +11,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private Cursor userCursor;
+    private Cursor groupCursor;
 
     private String mName;
     private String mEmail;
@@ -36,12 +38,26 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
         userId = (Integer) getIntent().getExtras().get("userId");
 
         mQueryTask = new getFullUserTask();
         mQueryTask.execute((Void) null);
+
+        //Create the group list listener
+        ListView listGroups = (ListView) findViewById(R.id.list_user_groups);
+        AdapterView.OnItemClickListener groupClickListener =
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                        //Pass the group the user clicks on to GroupMenuActivity
+                        Intent intent = new Intent(UserProfileActivity.this, GroupMenuActivity.class);
+                        intent.putExtra(GroupMenuActivity.EXTRA_GROUPID, (int) id);
+                        intent.putExtra("userId", userId);
+                        startActivity(intent);
+                    }
+                };
+        //Assign the listener to the list view
+        listGroups.setOnItemClickListener(groupClickListener);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -71,6 +87,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private class getFullUserTask extends AsyncTask<Void, Void, Boolean> {
 
+        ListView listUserGroups;
+
+        protected void onPreExecute() {
+            listUserGroups = (ListView) findViewById(R.id.list_user_groups);
+        }
+
         protected Boolean doInBackground(Void... params) {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
 
@@ -80,6 +102,7 @@ public class UserProfileActivity extends AppCompatActivity {
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
                 userCursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ? ", whereArgs);
+                groupCursor = db.rawQuery("SELECT GROUPS._id, NAME FROM GROUPS JOIN USER_IN_GROUP ON GROUPS._id = USER_IN_GROUP.GROUP_ID WHERE USER_IN_GROUP.USER_ID = ?", new String[] {String.valueOf(userId)} );
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -118,6 +141,13 @@ public class UserProfileActivity extends AppCompatActivity {
                     TextView userName = (TextView) findViewById(R.id.user_name);
                     userName.setText(mName);
                 }
+                SimpleCursorAdapter groupListAdapter = new SimpleCursorAdapter(UserProfileActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        groupCursor,
+                        new String[] {"NAME"},
+                        new int[] {android.R.id.text1},
+                        0);
+                listUserGroups.setAdapter(groupListAdapter);
             }
         }
     }
