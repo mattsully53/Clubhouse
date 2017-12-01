@@ -23,39 +23,18 @@ public class UserMenu extends AppCompatActivity {
         setContentView(R.layout.activity_user_menu);
         userId = (Integer) getIntent().getExtras().get("userId");
 
-        Button mViewProfileButton = (Button) findViewById(R.id.view_profile_button);
-        mViewProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
-
-        Button mViewGroupsButton = (Button) findViewById(R.id.view_groups_button);
-        mViewGroupsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, ViewGroupsActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
-
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
+    public void onClickViewProfile (View view) {
+        Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
+    }
 
-//    public void onClickViewProfile (View view) {
-//        Intent intent = new Intent(this, ViewProfileActivity.class);
-//        intent.putExtra("userId", userId);
-//        startActivity(intent);
-//    }
-//
     public void onClickCreateGroup (View view) {
         Intent intent = new Intent(this, CreateGroupActivity.class);
         intent.putExtra("userId", userId);

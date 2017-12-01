@@ -26,7 +26,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -83,25 +82,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        Button mCreateAccountButton = (Button) findViewById(R.id.create_account_button);
-        mCreateAccountButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void onClickLogin (View view) {
+        attemptLogin();
+    }
+
+    public void onClickCreateAccount (View view) {
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     private void populateAutoComplete() {

@@ -63,12 +63,5 @@
         android:text="@string/start_meeting"
         android:onClick="onClickJoinMeeting"/>
 
-    <CheckBox
-        android:id="@+id/bookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bookmark this group"
-        android:onClick="onClickBookmark"/>
-
 
 </LinearLayout>
