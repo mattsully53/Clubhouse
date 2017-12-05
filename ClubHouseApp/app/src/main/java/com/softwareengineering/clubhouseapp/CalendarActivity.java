@@ -27,8 +27,11 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         mCalendarView=(CalendarView) findViewById(R.id.calendarView);
+
+
+        Intent intent = getIntent();
         Log.d(TAG, "onCreate: made it this far");
-        groupId = (Integer) getIntent().getExtras().get("groupId");
+        groupId = intent.getIntExtra("groupId", 0);
         Log.d(TAG, "onCreate: got group ID successfully");
         userId = (Integer) getIntent().getExtras().get("userId");
         Log.d(TAG, "onCreate: got user ID successfully");

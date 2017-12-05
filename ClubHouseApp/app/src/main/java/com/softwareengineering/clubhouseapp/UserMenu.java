@@ -48,7 +48,6 @@ public class UserMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserMenu.this, CalendarActivity.class);
-                intent.putExtra("date", "12/17/2012");
                 intent.putExtra("userId", userId);
                 startActivity(intent);
             }
