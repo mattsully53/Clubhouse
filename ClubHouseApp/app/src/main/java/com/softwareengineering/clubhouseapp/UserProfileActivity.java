@@ -6,10 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.opengl.GLException;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +16,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends Activity {
 
     private SQLiteDatabase db;
     private Cursor userCursor;
@@ -37,40 +34,27 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        //Get userId from UserMenu
         userId = (Integer) getIntent().getExtras().get("userId");
 
+        //Populate views
         new GetFullUserTask().execute();
 
         //Create the group list listener
-        ListView listGroups = (ListView) findViewById(R.id.list_user_groups);
+        ListView listGroups = findViewById(R.id.list_user_groups);
         AdapterView.OnItemClickListener groupClickListener =
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         //Pass the group the user clicks on to GroupMenuActivity
                         Intent intent = new Intent(UserProfileActivity.this, GroupMenuActivity.class);
-                        intent.putExtra(GroupMenuActivity.EXTRA_GROUPID, (int) id);
+                        intent.putExtra("groupId", (int) id);
                         intent.putExtra("userId", userId);
                         startActivity(intent);
                     }
                 };
         //Assign the listener to the list view
         listGroups.setOnItemClickListener(groupClickListener);
-
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
-    }
-
-    public void onClickEditProfile (View view) {
-        Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
-        intent.putExtra("name", mName);
-        intent.putExtra("email", mEmail);
-        intent.putExtra("bio", mBio);
-        intent.putExtra("user_id", mUserId);
-        intent.putExtra("image_id", mImageId);
-        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -87,12 +71,11 @@ public class UserProfileActivity extends AppCompatActivity {
         ListView listUserGroups;
 
         protected void onPreExecute() {
-            listUserGroups = (ListView) findViewById(R.id.list_user_groups);
+            listUserGroups = findViewById(R.id.list_user_groups);
         }
 
         protected Boolean doInBackground(Void... params) {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
-//            Integer id = params[0];
             String[] whereArgs = new String[] {
                     String.valueOf(userId)
             };
@@ -147,5 +130,23 @@ public class UserProfileActivity extends AppCompatActivity {
                 listUserGroups.setAdapter(groupListAdapter);
             }
         }
+    }
+
+    public void onClickEditProfile (View view) {
+        Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
+        intent.putExtra("name", mName);
+        intent.putExtra("email", mEmail);
+        intent.putExtra("bio", mBio);
+        intent.putExtra("user_id", mUserId);
+        intent.putExtra("image_id", mImageId);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        userCursor.close();
+        groupCursor.close();
+        db.close();
     }
 }

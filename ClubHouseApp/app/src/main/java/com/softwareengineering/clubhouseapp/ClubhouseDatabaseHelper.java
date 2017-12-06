@@ -14,7 +14,6 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
     private static final String DB_NAME = "clubhouse"; //Name of our database
     private static final int DB_VERSION = 1; //Version of our database
 
-
     ClubhouseDatabaseHelper(Context context) {
         super(context,DB_NAME,null,DB_VERSION);
     }
@@ -46,7 +45,6 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         userValues.put("BIO", bio);
         userValues.put("IMAGE_RESOURCE_ID", resourceId);
         res = db.insert("USERS", null, userValues);
-
         return !(res == -1);
     }
 
@@ -67,8 +65,8 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         res = db.update("USERS", userValues, "_id = ?", new String[] {String.valueOf(id)});
         return (res == 1);
     }
-    public static boolean insertEvent(SQLiteDatabase db, String description, int group_id, String date)
-    {
+
+    public static boolean insertEvent(SQLiteDatabase db, String description, int group_id, String date) {
         long res;
         ContentValues EventValues = new ContentValues();
         EventValues.put("DESCRIPTION", description);
@@ -78,6 +76,10 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
         return !(res == -1);
     }
 
+    /*
+    *  Method to allow easy updates to the user's database. This way, the user does not have
+    *  to reinstall the app in order to update the database.
+    */
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
             db.execSQL("CREATE TABLE USERS (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -98,18 +100,11 @@ public class ClubhouseDatabaseHelper extends SQLiteOpenHelper{
                     + "FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(_id), "
                     + "FOREIGN KEY(USER_ID) REFERENCES USERS(_id));");
             insertUser(db, "Bobby Joe", "test@test.com", "testpass", "This is a test user.", R.drawable.blank_profile);
-            insertUser(db, "Betty Lu", "test2@test.com", "testpass2", "This is a test user2.", R.drawable.blank_profile);
             db.execSQL("CREATE TABLE EVENT (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRIPTION TEXT, "
                     + "GROUP_ID INTEGER, "
                     + "DATE TEXT, "
                     + "FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(_id));");
-            insertEvent(db, "Meeting at 4:00", 1, "11/29/17");
-
         }
-
-
     }
-
-
 }

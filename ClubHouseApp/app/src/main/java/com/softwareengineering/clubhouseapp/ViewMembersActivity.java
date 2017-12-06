@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,17 +18,15 @@ public class ViewMembersActivity extends Activity {
 
     private SQLiteDatabase db;
     private Cursor memberCursor;
-    private int userId;
+    private int groupId, userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_members);
 
-        //Get groupId from intent
-        int groupId = (Integer) getIntent().getExtras().get("groupId");
-        Log.d("FLOW", "onCreate: group id = " + groupId);
-
+        //Get groupId and userId from UserProfileActivity
+        groupId = (Integer) getIntent().getExtras().get("groupId");
         userId = (Integer) getIntent().getExtras().get("userId");
 
         //Populate the ListView with members of the chosen group
@@ -47,6 +44,7 @@ public class ViewMembersActivity extends Activity {
                         startActivity(intent);
                     }
                 };
+
         //Assign the listener to the list view
         listMembers.setOnItemClickListener(memberClickListener);
     }
@@ -56,6 +54,7 @@ public class ViewMembersActivity extends Activity {
         ListView listMembers;
 
         protected void onPreExecute() {
+            //Get reference of ListView list_members
             listMembers = findViewById(R.id.list_members);
         }
 
@@ -77,6 +76,7 @@ public class ViewMembersActivity extends Activity {
                 toast.show();
             }
             else {
+                //Display the NAME column of memberCursor through memberListAdapter
                 SimpleCursorAdapter memberListAdapter = new SimpleCursorAdapter(ViewMembersActivity.this,
                         android.R.layout.simple_list_item_1,
                         memberCursor,
@@ -84,24 +84,20 @@ public class ViewMembersActivity extends Activity {
                         new int[] {android.R.id.text1},
                         0);
                 listMembers.setAdapter(memberListAdapter);
-
             }
         }
     }
+
     @Override
     public void onRestart() {
         super.onRestart();
-        int groupId = (Integer) getIntent().getExtras().get("groupId");
         new ViewMembersActivity.UpdateMemberListTask().execute(groupId);
     }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        memberCursor.close();
+        memberCursor.close();
         db.close();
     }
-
-
 }

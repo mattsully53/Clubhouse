@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +24,8 @@ public class DeleteGroupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_group);
+
+        //Get userId from ViewGroupsActivity
         userId = (Integer)getIntent().getExtras().get("userId");
 
         //Populate the ListView with available groups
@@ -37,9 +37,9 @@ public class DeleteGroupActivity extends Activity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        //Delete the group the user clicks on
+                        //Delete the group the user clicks on and return back to ViewGroupsActivity
                         new DeleteGroupTask().execute((int) id);
-                        Intent intent = new Intent(DeleteGroupActivity.this, UserMenu.class);
+                        Intent intent = new Intent(DeleteGroupActivity.this, ViewGroupsActivity.class);
                         intent.putExtra("userId", userId);
                         startActivity(intent);
                     }
@@ -77,6 +77,7 @@ public class DeleteGroupActivity extends Activity {
         ListView listGroups;
 
         protected void onPreExecute() {
+            //Get reference of ListView list_groups
             listGroups = findViewById(R.id.list_groups);
         }
 
@@ -98,6 +99,7 @@ public class DeleteGroupActivity extends Activity {
                 toast.show();
             }
             else {
+                //Display the NAME column of groupCursor through groupListAdapter
                 SimpleCursorAdapter groupListAdapter = new SimpleCursorAdapter(DeleteGroupActivity.this,
                         android.R.layout.simple_list_item_1,
                         groupCursor,

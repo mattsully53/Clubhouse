@@ -1,7 +1,6 @@
 package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,16 +10,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.acl.Group;
-
 public class GroupMenuActivity extends Activity {
 
-    public static final String EXTRA_GROUPID = "groupId";
     private Cursor cursor;
     private SQLiteDatabase db;
     private int userId, groupId;
@@ -34,7 +29,7 @@ public class GroupMenuActivity extends Activity {
         groupId = (Integer) getIntent().getExtras().get("groupId");
         userId = (Integer) getIntent().getExtras().get("userId");
 
-        //PopulateViews
+        //Populate views
         new PopulateGroupMenuTask().execute(groupId);
 
         Button mViewCalendarButton = (Button) findViewById(R.id.view_calendar_button);
@@ -93,13 +88,6 @@ public class GroupMenuActivity extends Activity {
         }
     }
 
-    @Override
-    public void onDestroy () {
-        super.onDestroy();
-//        cursor.close();
-        db.close();
-    }
-
     public void onClickViewCalendar (View view) {
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra("userId", userId);
@@ -113,7 +101,7 @@ public class GroupMenuActivity extends Activity {
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
-//
+
 //    public void onClickViewResources (View view) {
 //        Intent intent = new Intent(this, ViewResourcesActivity.class);
 //        startActivity(intent);
@@ -123,4 +111,11 @@ public class GroupMenuActivity extends Activity {
 //        Intent intent = new Intent(this, JoinMeetingActivity.class);
 //        startActivity(intent);
 //    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        cursor.close();
+        db.close();
+    }
 }

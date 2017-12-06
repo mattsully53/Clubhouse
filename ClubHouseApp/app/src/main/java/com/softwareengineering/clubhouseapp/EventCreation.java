@@ -51,12 +51,6 @@ public class EventCreation extends AppCompatActivity {
                 } else {
                     Toast.makeText(EventCreation.this, "Something went wrong.", Toast.LENGTH_LONG).show();
                 }
-
-
-
-
-
-
             }
 
 

@@ -1,22 +1,14 @@
 
 package com.softwareengineering.clubhouseapp;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.CalendarView;
-import android.widget.TextView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
-import java.time.Month;
-
-
-public class CalendarActivity extends AppCompatActivity {
-
+public class CalendarActivity extends Activity {
 
     private static final String TAG = "CalendarActivity";
     private CalendarView mCalendarView;
@@ -26,12 +18,12 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-        mCalendarView=(CalendarView) findViewById(R.id.calendarView);
-        Log.d(TAG, "onCreate: made it this far");
+        mCalendarView= findViewById(R.id.calendarView);
+
+        //Get groupId and userId from UserMenu?
         groupId = (Integer) getIntent().getExtras().get("groupId");
-        Log.d(TAG, "onCreate: got group ID successfully");
         userId = (Integer) getIntent().getExtras().get("userId");
-        Log.d(TAG, "onCreate: got user ID successfully");
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month,
@@ -40,7 +32,6 @@ public class CalendarActivity extends AppCompatActivity {
                 intent.putExtra( "date",    (month+1) + "/" + dayOfMonth + "/" + year);
                 intent.putExtra("groupId", groupId);
                 intent.putExtra("userId", userId);
-
                 startActivity(intent);
             }
         });
