@@ -26,8 +26,8 @@ public class GroupMenuActivity extends Activity {
         setContentView(R.layout.activity_group_menu);
 
         //Get the group and user from the intent
-        groupId = (Integer) getIntent().getExtras().get("groupId");
-        userId = (Integer) getIntent().getExtras().get("userId");
+        groupId = getIntent().getIntExtra("groupId", 0);
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate views
         new PopulateGroupMenuTask().execute(groupId);
@@ -88,6 +88,8 @@ public class GroupMenuActivity extends Activity {
         }
     }
 
+
+
     public void onClickViewCalendar (View view) {
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra("userId", userId);
@@ -111,11 +113,4 @@ public class GroupMenuActivity extends Activity {
 //        Intent intent = new Intent(this, JoinMeetingActivity.class);
 //        startActivity(intent);
 //    }
-
-    @Override
-    public void onDestroy () {
-        super.onDestroy();
-        cursor.close();
-        db.close();
-    }
 }

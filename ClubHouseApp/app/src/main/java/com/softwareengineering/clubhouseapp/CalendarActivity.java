@@ -3,14 +3,12 @@ package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.CalendarView;
 import android.content.Intent;
 import android.os.Bundle;
 
 public class CalendarActivity extends Activity {
 
-    private static final String TAG = "CalendarActivity";
     private CalendarView mCalendarView;
     private int userId, groupId;
 
@@ -18,11 +16,12 @@ public class CalendarActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-        mCalendarView= findViewById(R.id.calendarView);
 
-        //Get groupId and userId from UserMenu?
-        groupId = (Integer) getIntent().getExtras().get("groupId");
-        userId = (Integer) getIntent().getExtras().get("userId");
+        //Get groupId and userId from UserMenu or ViewMembersActivity
+        groupId = getIntent().getIntExtra("groupId", 0);
+        userId = getIntent().getIntExtra("userId", 0);
+
+        mCalendarView= findViewById(R.id.calendarView);
 
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

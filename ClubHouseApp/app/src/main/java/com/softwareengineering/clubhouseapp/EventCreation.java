@@ -31,8 +31,8 @@ public class EventCreation extends AppCompatActivity {
         Intent intent = getIntent();
         mDate = intent.getStringExtra("date");
         mDescription = (EditText) findViewById(R.id.Event);
-        userId = (Integer) intent.getExtras().get("userId");
-        groupId = (Integer) getIntent().getExtras().get("groupId");
+        userId = getIntent().getIntExtra("userId",0);
+        groupId = getIntent().getIntExtra("groupId", 0);
 
         Button mCreateEventButton = (Button) findViewById(R.id.create_event_button);
         mCreateEventButton.setOnClickListener(new View.OnClickListener() {

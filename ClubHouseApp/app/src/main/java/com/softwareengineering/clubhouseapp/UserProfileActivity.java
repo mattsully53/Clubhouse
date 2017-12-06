@@ -35,7 +35,7 @@ public class UserProfileActivity extends Activity {
         setContentView(R.layout.activity_user_profile);
 
         //Get userId from UserMenu
-        userId = (Integer) getIntent().getExtras().get("userId");
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate views
         new GetFullUserTask().execute();

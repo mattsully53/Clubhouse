@@ -26,7 +26,7 @@ public class JoinGroupActivity extends Activity {
         setContentView(R.layout.activity_join_group);
 
         //Get the userId from UserMenu
-        userId = (Integer) getIntent().getExtras().get("userId");
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with available groups
         new UpdateGroupListTask().execute("GROUPS");

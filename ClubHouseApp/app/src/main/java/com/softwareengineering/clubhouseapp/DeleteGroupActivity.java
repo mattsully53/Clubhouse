@@ -26,7 +26,7 @@ public class DeleteGroupActivity extends Activity {
         setContentView(R.layout.activity_delete_group);
 
         //Get userId from ViewGroupsActivity
-        userId = (Integer)getIntent().getExtras().get("userId");
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with available groups
         new UpdateGroupListTask().execute();

@@ -14,8 +14,8 @@ public class UserMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
 
-        //Get id of user from Login Activity
-        userId = (Integer) getIntent().getExtras().get("userId");
+        //Get userId from Login Activity
+        userId = getIntent().getIntExtra("userId",0);
     }
 
     //All onClick methods pass the userId with the created intent

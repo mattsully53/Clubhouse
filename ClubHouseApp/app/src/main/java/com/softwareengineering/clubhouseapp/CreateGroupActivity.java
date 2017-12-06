@@ -24,7 +24,7 @@ public class CreateGroupActivity extends Activity {
         setContentView(R.layout.activity_create_group);
 
         //Get userId from UserMenu
-        userId = (Integer)getIntent().getExtras().get("userId");
+        userId = getIntent().getIntExtra("userId",0);
 
         //Get reference of input fields
         name = findViewById(R.id.group_name);

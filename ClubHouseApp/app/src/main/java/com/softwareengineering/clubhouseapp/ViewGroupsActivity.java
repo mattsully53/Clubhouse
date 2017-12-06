@@ -26,7 +26,7 @@ public class ViewGroupsActivity extends Activity {
         setContentView(R.layout.activity_view_groups);
 
         //Get userId from UserMenu
-        userId = (Integer) getIntent().getExtras().get("userId");
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with available groups
         new UpdateGroupListTask().execute(userId);

@@ -26,8 +26,8 @@ public class ViewMembersActivity extends Activity {
         setContentView(R.layout.activity_view_members);
 
         //Get groupId and userId from UserProfileActivity
-        groupId = (Integer) getIntent().getExtras().get("groupId");
-        userId = (Integer) getIntent().getExtras().get("userId");
+        groupId = getIntent().getIntExtra("groupId", 0);
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with members of the chosen group
         new UpdateMemberListTask().execute(groupId);
