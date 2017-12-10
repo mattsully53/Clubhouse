@@ -31,22 +31,6 @@ public class ViewMembersActivity extends Activity {
 
         //Populate the ListView with members of the chosen group
         new UpdateMemberListTask().execute(groupId);
-
-        //Create the member list listener
-        ListView listMembers = findViewById(R.id.list_members);
-        AdapterView.OnItemClickListener memberClickListener =
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        //Pass the member the user clicks on to UserProfileActivity
-                        Intent intent = new Intent(ViewMembersActivity.this, UserProfileActivity.class);
-                        intent.putExtra("userId", userId);
-                        startActivity(intent);
-                    }
-                };
-
-        //Assign the listener to the list view
-        listMembers.setOnItemClickListener(memberClickListener);
     }
 
     private class UpdateMemberListTask extends AsyncTask<Integer,Void,Boolean> {
