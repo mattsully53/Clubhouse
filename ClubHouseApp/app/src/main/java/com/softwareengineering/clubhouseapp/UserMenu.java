@@ -13,80 +13,67 @@ import android.widget.TextView;
 
 public class UserMenu extends AppCompatActivity {
 
+    // User's ID
     private int userId;
-    private SQLiteDatabase db;
-    private Cursor cursor;
 
+    /*
+     * Display layout on page load
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
         userId = (Integer) getIntent().getExtras().get("userId");
 
-        Button mViewProfileButton = (Button) findViewById(R.id.view_profile_button);
-        mViewProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
-
-        Button mViewGroupsButton = (Button) findViewById(R.id.view_groups_button);
-        mViewGroupsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, ViewGroupsActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
-
-        Button mViewCalendarButton = (Button) findViewById(R.id.view_calendar_button);
-        mViewCalendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, CalendarActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
+        // Remove the action bar back arrow
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
-//    public void onClickViewProfile (View view) {
-//        Intent intent = new Intent(UserMenu.this, UserProfileActivity.class);
-//        intent.putExtra("userId", userId);
-//        startActivity(intent);
-//    }
+    /*
+     * When View Profile button is clicked
+     */
+    public void onClickViewProfile (View view) {
+        goToIntent(UserProfileActivity.class);
+    }
 
+    /*
+     * When Login button is clicked
+     */
     public void onClickCreateGroup (View view) {
-        Intent intent = new Intent(this, CreateGroupActivity.class);
-        intent.putExtra("userId", userId);
-        startActivity(intent);
+        goToIntent(CreateGroupActivity.class);
     }
 
+    /*
+     * When Join Group button is clicked
+     */
     public void onClickJoinGroup (View view) {
-        Intent intent = new Intent(this, JoinGroupActivity.class);
+        goToIntent(JoinGroupActivity.class);
+    }
+
+    /*
+     * When View Groups button is clicked
+     */
+    public void onClickViewGroups (View view) {
+        goToIntent(ViewGroupsActivity.class);
+    }
+
+    /*
+     * When View Calendar button is clicked
+     */
+    public void onClickViewCalendar (View view) {
+        goToIntent(CalendarActivity.class);
+    }
+
+    /*
+     * Goes to the given page
+     */
+    private void goToIntent(Class location){
+        Intent intent = new Intent(UserMenu.this, location);
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
-
-//    public void onClickViewGroups (View view) {
-//        Intent intent = new Intent(this, ViewGroupsActivity.class);
-//        intent.putExtra("userId", userId);
-//        startActivity(intent);
-//    }
-
-//    public void onClickViewCalendar (View view) {
-//        Intent intent = new Intent(this, ViewCalendarActivity.class);
-//        intent.putExtra("userId", userId);
-//        startActivity(intent);
-//    }
-
 
 }

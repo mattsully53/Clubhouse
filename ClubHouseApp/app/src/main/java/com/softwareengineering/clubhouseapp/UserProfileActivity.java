@@ -20,10 +20,12 @@ import android.widget.Toast;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    // Database references
     private SQLiteDatabase db;
     private Cursor userCursor;
     private Cursor groupCursor;
 
+    // User data
     private String mName;
     private String mEmail;
     private String mBio;
@@ -31,6 +33,9 @@ public class UserProfileActivity extends AppCompatActivity {
     private int mImageId;
     private int userId;
 
+    /*
+     * Display layout on page load
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +61,16 @@ public class UserProfileActivity extends AppCompatActivity {
         //Assign the listener to the list view
         listGroups.setOnItemClickListener(groupClickListener);
 
+        // Remove the action bar back arrow
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
+    /*
+     * When Edit Profile button is clicked
+     */
     public void onClickEditProfile (View view) {
         Intent intent = new Intent(UserProfileActivity.this, EditUserProfileActivity.class);
         intent.putExtra("name", mName);
@@ -72,6 +81,9 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
 
+    /*
+     * When editing the profile has finished
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -81,17 +93,22 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * Class for getting the user data
+     */
     private class GetFullUserTask extends AsyncTask<Void, Void, Boolean> {
 
+        // UI reference
         ListView listUserGroups;
 
+        // Populate the UI reference
         protected void onPreExecute() {
             listUserGroups = (ListView) findViewById(R.id.list_user_groups);
         }
 
+        // Query the database
         protected Boolean doInBackground(Void... params) {
             SQLiteOpenHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(UserProfileActivity.this);
-//            Integer id = params[0];
             String[] whereArgs = new String[] {
                     String.valueOf(userId)
             };
@@ -105,6 +122,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
 
+        // Populate the UI with the data from the query
         protected void onPostExecute(Boolean success) {
             if (!success) {
                 Toast toast = Toast.makeText(UserProfileActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
