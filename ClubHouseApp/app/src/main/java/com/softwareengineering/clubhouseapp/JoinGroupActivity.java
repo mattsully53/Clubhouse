@@ -1,24 +1,18 @@
 package com.softwareengineering.clubhouseapp;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-
-import java.util.List;
 
 public class JoinGroupActivity extends Activity {
 
@@ -31,7 +25,8 @@ public class JoinGroupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_group);
 
-        userId = (Integer) getIntent().getExtras().get("userId");
+        //Get the userId from UserMenu
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with available groups
         new UpdateGroupListTask().execute("GROUPS");
@@ -42,50 +37,16 @@ public class JoinGroupActivity extends Activity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        //Pass the group the user clicks on to update database
+                        //Pass the group the user clicks on to update database and return to UserMenu
                             new UpdateGroupDatabaseTask().execute((int) id);
                             Intent intent = new Intent(JoinGroupActivity.this, UserMenu.class);
                             intent.putExtra("userId", userId);
                             startActivity(intent);
                     }
                 };
+
         //Assign the listener to the list view
         listGroups.setOnItemClickListener(groupClickListener);
-    }
-
-    private boolean userInGroup(int groupId) {
-        new CheckMembershipTask().execute(groupId, userId);
-        Log.d("TAG", "userInGroup groupId: " + groupId);
-        if (userGroupCursor != null && userGroupCursor.getCount()>0) {
-            return true;
-        } else return false;
-    }
-
-    private class CheckMembershipTask extends AsyncTask<Integer,Void,Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Integer... integers) {
-            Integer groupId = integers[0];
-            Integer userId = integers[1];
-            String[] whereArgs = new String[] {groupId.toString(), userId.toString()};
-            ClubhouseDatabaseHelper clubhouseDatabaseHelper = new ClubhouseDatabaseHelper(JoinGroupActivity.this);
-            try {
-                db = clubhouseDatabaseHelper.getReadableDatabase();
-                userGroupCursor = db.rawQuery("SELECT GROUP_ID, USER_ID FROM USER_IN_GROUP WHERE GROUP_ID = ? AND USER_ID = ?",
-                        whereArgs);
-                return true;
-            } catch (SQLiteException e) {
-                return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if (!success) {
-                Toast toast = Toast.makeText(JoinGroupActivity.this, "Database Unavailable", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
     }
 
     private class UpdateGroupDatabaseTask extends AsyncTask<Integer,Void,Boolean> {
@@ -100,7 +61,8 @@ public class JoinGroupActivity extends Activity {
                 db = clubhouseDatabaseHelper.getWritableDatabase();
                 userGroupCursor = db.rawQuery("SELECT GROUP_ID, USER_ID FROM USER_IN_GROUP WHERE GROUP_ID = ? AND USER_ID = ?",
                         whereArgs);
-                Log.d("TAG", "doInBackground: updated database with " + groupId + ", " + userId);
+                //Only update the database if userGroupCursor does not contain any results.
+                //This insures the user does not join a group if they are already a part of it.
                 if (!userGroupCursor.moveToFirst()) {
                     ClubhouseDatabaseHelper.insertUserInGroup(db, groupId, userId);
                 }
@@ -123,6 +85,7 @@ public class JoinGroupActivity extends Activity {
         ListView listGroups;
 
         protected void onPreExecute() {
+            //Get reference of ListView list_groups
             listGroups = findViewById(R.id.list_groups);
         }
 
@@ -146,6 +109,7 @@ public class JoinGroupActivity extends Activity {
                 toast.show();
             }
             else {
+                //Display the NAME column of groupCursor through groupListAdapter
                 SimpleCursorAdapter groupListAdapter = new SimpleCursorAdapter(JoinGroupActivity.this,
                         android.R.layout.simple_list_item_1,
                         groupCursor,
@@ -166,8 +130,8 @@ public class JoinGroupActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        groupCursor.close();
-//        userGroupCursor.close();
+        groupCursor.close();
+        userGroupCursor.close();
         db.close();
     }
 }

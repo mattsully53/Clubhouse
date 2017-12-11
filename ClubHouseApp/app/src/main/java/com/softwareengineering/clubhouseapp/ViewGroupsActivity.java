@@ -7,30 +7,26 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ViewGroupsActivity extends Activity {
 
     private SQLiteDatabase db;
-    private Cursor groupCursor, bookmarkCursor;
+    private Cursor groupCursor;
     private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_groups);
-        userId = (Integer) getIntent().getExtras().get("userId");
+
+        //Get userId from UserMenu
+        userId = getIntent().getIntExtra("userId",0);
 
         //Populate the ListView with available groups
         new UpdateGroupListTask().execute(userId);
@@ -43,37 +39,22 @@ public class ViewGroupsActivity extends Activity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         //Pass the group the user clicks on to GroupMenuActivity
                         Intent intent = new Intent(ViewGroupsActivity.this, GroupMenuActivity.class);
-                        intent.putExtra(GroupMenuActivity.EXTRA_GROUPID, (int) id);
+                        intent.putExtra("groupId", (int) id);
                         intent.putExtra("userId", userId);
                         startActivity(intent);
                     }
                 };
+
         //Assign the listener to the list view
         listGroups.setOnItemClickListener(groupClickListener);
-
-        //Create the bookmark list listener
-        ListView listBookmarks = findViewById(R.id.list_bookmarks);
-        AdapterView.OnItemClickListener bookmarkClickListener =
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        //Pass the group the user clicks on to GroupMenuActivity
-                        Intent intent = new Intent(ViewGroupsActivity.this, GroupMenuActivity.class);
-                        intent.putExtra(GroupMenuActivity.EXTRA_GROUPID, (int) id);
-                        intent.putExtra("userId", userId);
-                        startActivity(intent);
-                    }
-                };
-        //Assign the listener to the list view
-        listBookmarks.setOnItemClickListener(bookmarkClickListener);
     }
 
     private class UpdateGroupListTask extends AsyncTask<Integer,Void,Boolean> {
-        ListView listGroups, listBookmarks;
+        ListView listGroups;
 
         protected void onPreExecute() {
+            //Get reference of ListView list_groups
             listGroups = findViewById(R.id.list_groups);
-            listBookmarks = findViewById(R.id.list_bookmarks);
         }
 
         protected Boolean doInBackground(Integer...table) {
@@ -82,11 +63,6 @@ public class ViewGroupsActivity extends Activity {
             try {
                 db = clubhouseDatabaseHelper.getReadableDatabase();
                 groupCursor = db.rawQuery("SELECT GROUPS._id, NAME FROM GROUPS JOIN USER_IN_GROUP ON GROUPS._id = USER_IN_GROUP.GROUP_ID WHERE USER_IN_GROUP.USER_ID = ?", new String[] {userId.toString()} );
-                Log.d("TAG", "doInBackground: " + groupCursor.moveToFirst());
-                bookmarkCursor = db.query("GROUPS",
-                        new String[] {"_id", "NAME"},
-                        "BOOKMARK = 1",
-                        null,null,null,null);
                 return true;
             } catch (SQLiteException e) {
                 return false;
@@ -99,6 +75,7 @@ public class ViewGroupsActivity extends Activity {
                 toast.show();
             }
             else {
+                //Display the NAME column of groupCursor through groupListAdapter
                 SimpleCursorAdapter groupListAdapter = new SimpleCursorAdapter(ViewGroupsActivity.this,
                         android.R.layout.simple_list_item_1,
                         groupCursor,
@@ -106,17 +83,14 @@ public class ViewGroupsActivity extends Activity {
                         new int[] {android.R.id.text1},
                         0);
                 listGroups.setAdapter(groupListAdapter);
-
-                SimpleCursorAdapter bookmarkListAdapter = new SimpleCursorAdapter(ViewGroupsActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        bookmarkCursor,
-                        new String[] {"NAME"},
-                        new int[] {android.R.id.text1},
-                        0);
-                listBookmarks.setAdapter(bookmarkListAdapter);
-
             }
         }
+    }
+
+    public void onClickDeleteGroup(View view) {
+        Intent intent = new Intent(this, DeleteGroupActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 
     @Override
@@ -128,8 +102,7 @@ public class ViewGroupsActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        groupCursor.close();
-//        bookmarkCursor.close();
+        groupCursor.close();
         db.close();
     }
 }

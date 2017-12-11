@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,34 +11,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/view_profile"
-        android:onClick="onClickViewProfile"/>
+        android:onClick="onClickViewProfile"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/create_group_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_group"
-        android:onClick="onClickCreateGroup"/>
+        android:onClick="onClickCreateGroup"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/join_group_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/join_group"
-        android:onClick="onClickJoinGroup"/>
+        android:onClick="onClickJoinGroup"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/view_groups_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/view_groups"
-        android:onClick="onClickViewGroups"/>
+        android:onClick="onClickViewGroups"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/view_calendar_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_calendar" />
-        //android:onClick="onClickViewCalendar"/>
+        android:text="@string/view_calendar"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickViewCalendar"/>
 
 </LinearLayout>

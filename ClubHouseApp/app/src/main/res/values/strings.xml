@@ -29,6 +29,8 @@
     <!-- Strings related to UserProfile -->
     <string name="user_icon">User Icon</string>
     <string name="action_edit">Edit</string>
+    <string name="action_edit_user">Edit User</string>
+    <string name="user_enrolled_groups">This user is a member of the following groups:</string>
 
     <!-- Strings related to EditUserProfile -->
     <string name="save">Save</string>
@@ -43,6 +45,8 @@
     <!--Strings related to ViewGroups -->
     <string name="bookmarked_groups">Your bookmarked clubs:</string>
     <string name="enrolled_groups">Clubs you are a part of:</string>
+    <string name="delete_group">Delete a group</string>
+    <string name="title_activity_event_creation">EventCreationActivity</string>
 
     <!--Strings related to ViewUsers -->
     <string name="users_in_group">Users who are a part of this group:</string>

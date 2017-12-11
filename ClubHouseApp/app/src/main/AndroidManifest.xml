@@ -24,17 +24,6 @@
             </intent-filter>
         </activity>
 
-        <!-- <activity -->
-        <!-- android:name=".UserMenu" -->
-        <!-- android:label="@string/app_name"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
-
         <activity
             android:name=".GroupMenuActivity"
             android:parentActivityName=".UserMenu" />
@@ -62,8 +51,23 @@
         <activity
             android:name=".EditUserProfileActivity"
             android:parentActivityName=".UserProfileActivity" />
+<<<<<<< HEAD
         <activity android:name=".DeleteGroupActivity" />
         <activity android:name=".ResourceActivity"></activity>
+=======
+        <activity
+            android:name=".DeleteGroupActivity"
+            android:parentActivityName=".ViewGroupsActivity"/>
+        <activity
+            android:name=".CalendarActivity"
+            android:parentActivityName=".UserMenu"/>
+        <activity
+            android:name="CalendarDayView"
+            android:parentActivityName=".CalendarActivity"/>
+        <activity
+            android:name="EventCreation"
+            android:parentActivityName=".CalendarDayView"/>
+>>>>>>> 7ffe5dd0dd1253f338e4fce5fa317ffd74c9365f
     </application>
 
 </manifest>

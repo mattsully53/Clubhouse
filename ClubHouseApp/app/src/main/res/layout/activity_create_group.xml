@@ -57,7 +57,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_create_group"
                 android:textStyle="bold"
-                android:onClick="CreateGroup"/>
+                android:onClick="onClickCreateGroup"/>
 
         </LinearLayout>
     </ScrollView>
